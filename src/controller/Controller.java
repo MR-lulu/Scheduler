@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 import algorithm.Scheduler;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -40,6 +41,7 @@ import model.ResultModel;
 public class Controller {
 	@FXML protected TableColumn<ResultModel, Integer> pidColumn;
 	@FXML protected TableColumn<ResultModel, Float> startColumn;
+	@FXML private TableColumn<ResultModel, String> statusColumn;
 	@FXML protected TableColumn<ResultModel, Float> finishColumn;
 	@FXML protected TableColumn<ResultModel, Float> turnColumn;
 	@FXML protected TableColumn<ResultModel, Float> rturnColumn;
@@ -61,6 +63,8 @@ public class Controller {
 		//设置tableView表格内所填值的元素
 		pidColumn.setCellValueFactory(CellData->CellData.getValue().pidProperty().asObject());
 		arriveColumn.setCellValueFactory(CellData->CellData.getValue().arriverTimeProperty().asObject());
+		statusColumn.setCellValueFactory(cellData->new SimpleObjectProperty<>(agrs[cellData.getValue().getStatus()]));
+		statusColumn.setCellFactory(new CellString());
 		startColumn.setCellValueFactory(CellData->CellData.getValue().startTimeProperty().asObject());
 		finishColumn.setCellValueFactory(CellData->CellData.getValue().finishTimeProperty().asObject());
 		turnColumn.setCellValueFactory(CellData->CellData.getValue().turnaroundTimeProperty().asObject());

@@ -12,8 +12,9 @@ public class PSA extends Scheduler{
 	{
 		//this.List =new LinkedList<PCB>();
 		List = list;
+		sequence=new ArrayList<String>();
 	}
-	
+
 	public void sort(ObservableList<ResultModel> List) {
 		for(int i=0;i<List.size();i++)
 		{
@@ -99,43 +100,51 @@ public class PSA extends Scheduler{
 				if(List.get(value).getStartTime()==0&&List.get(value).getStartTime()!=List.get(value).getPcb().getArriveTime())//如果是第一次运行设置其运行时间
 				{
 					System.out.println("第"+List.get(value).getPid()+"个开始----------");
-					tPcb.setStartTime(nowtime);
+					List.get(value).setStartTime(nowtime);
 				}
 				else {
-					tPcb.setStartTime(List.get(value).getStartTime());
-					tResultModel.setStartTime(List.get(value).getStartTime());
+					//tPcb.setStartTime(List.get(value).getStartTime());
+					//tResultModel.setStartTime(List.get(value).getStartTime());
 				}
 					
 				
+				sequence.add(String.valueOf(List.get(value).getPid()));	
 				
+				//tPcb.setArriveTime(List.get(value).getPcb().getArriveTime());
+				//tPcb.setPid(List.get(value).getPid());
+				List.get(value).getPcb().setNeedTime(List.get(value).getPcb().getNeedTime()-1);
+				List.get(value).setNeedTime(List.get(value).getNeedTime()-1);
 				
-				tPcb.setArriveTime(List.get(value).getPcb().getArriveTime());
-				tPcb.setPid(List.get(value).getPid());
-				tPcb.setNeedTime(List.get(value).getPcb().getNeedTime()-1);
-				tPcb.setServiceTime(List.get(value).getPcb().getServiceTime()+1);
+				List.get(value).getPcb().setPriority(List.get(value).getPcb().getPriority()+3);
+				List.get(value).setPriority(List.get(value).getPriority()+3);
+				List.get(value).setStatus(1);
+				List.get(value).getPcb().setStatus(1);
 				
-				tPcb.setPriority(List.get(value).getPcb().getPriority()+3);
-				tPcb.setStatus(1);
-				
-				tResultModel.setPid(tPcb.getPid());
-				tResultModel.setStartTime(tPcb.getStartTime());
-				tResultModel.setNeedTime(tPcb.getNeedTime());
-				tResultModel.setServerTime(tPcb.getServiceTime());
-				tResultModel.setPriority(tPcb.getPriority());
-				tResultModel.setStatus(1);
-				if(tPcb.getNeedTime()==0)//如果任务结束设置其结束时间和设置状态为结束
+				List.get(value).getPcb().setServiceTime(List.get(value).getPcb().getServiceTime()+1);
+				List.get(value).setServerTime(List.get(value).getServerTime()+1);
+				//tResultModel.setPid(tPcb.getPid());
+				//tResultModel.setStartTime(tPcb.getStartTime());
+				//tResultModel.setNeedTime(tPcb.getNeedTime());
+				//tResultModel.setServerTime(tPcb.getServiceTime());
+				//tResultModel.setPriority(tPcb.getPriority());
+				//tResultModel.setStatus(1);
+				if(List.get(value).getNeedTime()==0)//如果任务结束设置其结束时间和设置状态为结束
 				{
-					tPcb.setFinishTime(nowtime+1);
-					tResultModel.setFinishTime(nowtime+1);
-					tPcb.setStatus(2);
-					tResultModel.setStatus(2);
-					tResultModel.setTurnaroundTime(tPcb.getFinishTime()-tPcb.getArriveTime());
-					tResultModel.setRturnaroundTime((tPcb.getFinishTime()-tPcb.getArriveTime())/tPcb.getServiceTime());
-					//System.out.println("第"+value+"个结束");
+					//tPcb.setFinishTime(nowtime+1);
+					List.get(value).setFinishTime(nowtime+1);
+					//tResultModel.setFinishTime(nowtime+1);
+					List.get(value).getPcb().setFinishTime(nowtime+1);
+					//tPcb.setStatus(2);
+					//tResultModel.setStatus(2);
+					List.get(value).getPcb().setStatus(2);
+					List.get(value).setStatus(2);
+					List.get(value).setTurnaroundTime(List.get(value).getPcb().getFinishTime()-List.get(value).getPcb().getArriveTime());
+					List.get(value).setRturnaroundTime((List.get(value).getPcb().getFinishTime()-List.get(value).getPcb().getArriveTime())/List.get(value).getPcb().getServiceTime());
+					System.out.println("第"+value+"个结束");
 					end++;
 				}
-				tResultModel.setPcb(tPcb);
-				List.set(value,tResultModel);
+				//tResultModel.setPcb(tPcb);
+				//List.set(value,tResultModel);
 				System.out.println(value);
 				 System.out.println("名字"+List.get(value).getPid()+" "+value);
 			     System.out.println("优先级"+List.get(value).getPcb().getPriority());
@@ -172,7 +181,7 @@ public class PSA extends Scheduler{
 		{
 			return -1;
 		}*/
-		//ResultModel tResultModel=new ResultModel();
+		ResultModel tResultModel=new ResultModel();
 		for(int i1=0;i1<List.size();i1++)
 		{
 			//PCB tPcb=new PCB();
@@ -199,7 +208,7 @@ public class PSA extends Scheduler{
 	}
 	public void setready(float nowtime,ObservableList<ResultModel> List)
 	{
-		System.out.println("===========有队列到达=============");
+		System.out.println("===========当前就绪队列=============");
 		for(int i1=0;i1<List.size();i1++)
 		{
 			PCB tPcb=new PCB();
@@ -238,27 +247,24 @@ public class PSA extends Scheduler{
 	{
 		for(int i1=0;i1<List.size();i1++)
 		{
-			PCB tPcb=new PCB();
-			ResultModel tResultModel=new ResultModel();
+			//PCB tPcb=new PCB();
+			//ResultModel tResultModel=new ResultModel();
 			if(List.get(i1).getPcb().getStatus()==0)
 			{
-				tPcb.setStartTime(List.get(i1).getStartTime());
-				tPcb.setArriveTime(List.get(i1).getPcb().getArriveTime());
-				tPcb.setPid(List.get(i1).getPcb().getPid());
-				tPcb.setNeedTime(List.get(i1).getPcb().getNeedTime());
-				tPcb.setServiceTime(List.get(i1).getPcb().getServiceTime());
-				tPcb.setPriority(List.get(i1).getPcb().getPriority()-3);
-				tPcb.setFinishTime(List.get(i1).getPcb().getFinishTime());
-				tPcb.setStatus(0);
-				tResultModel.setPcb(tPcb);
-				tResultModel.setPid(tPcb.getPid());
-				tResultModel.setNeedTime(tPcb.getNeedTime());
-				tResultModel.setServerTime(tPcb.getServiceTime());
-				tResultModel.setPriority(tPcb.getPriority());
-				tResultModel.setStatus(0);
-				tResultModel.setStartTime(tPcb.getStartTime());
-				tResultModel.setFinishTime(tPcb.getFinishTime());
-				List.set(i1, tResultModel);
+				
+				if(List.get(i1).getPcb().getPriority()-3<0)
+				{
+					List.get(i1).getPcb().setPriority(0);
+					List.get(i1).setPriority(0);
+				}
+				else {
+					List.get(i1).getPcb().setPriority(List.get(i1).getPcb().getPriority()-3);
+					List.get(i1).setPriority(List.get(i1).getPcb().getPriority()-3);
+				}
+			
+				//tPcb.setFinishTime(List.get(i1).getPcb().getFinishTime());
+				List.get(i1).setStatus(0);
+				List.get(i1).getPcb().setStatus(0);
 				System.out.println("老化结果（（（（））））））");
 				 System.out.println("名字"+List.get(i1).getPid()+" "+i1);
 			     System.out.println("优先级"+List.get(i1).getPcb().getPriority());
@@ -305,11 +311,5 @@ public class PSA extends Scheduler{
 		     System.out.println("完成时间"+this.List.get(i1).getFinishTime());
 		}
 		System.out.println("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");
-	}
-
-	@Override
-	public ArrayList<ResultModel> runProcess() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

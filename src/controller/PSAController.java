@@ -20,14 +20,11 @@ import model.ResultModel;
  * @date 2017Äê6ÔÂ28ÈÕ
  */
 public class PSAController extends Controller{
-	//private PSA psa;
-	@FXML private TableColumn<ResultModel, String> statusColumn;
 	@FXML private TableColumn<ResultModel, Integer> priorityColumn;
 	@FXML 
 	private void initialize() {
 		setUpTableView();
-		statusColumn.setCellValueFactory(cellData->new SimpleObjectProperty<>(agrs[cellData.getValue().getStatus()]));
-		statusColumn.setCellFactory(new CellString());
+		
 		priorityColumn.setCellValueFactory(cellData->cellData.getValue().priorityProperty().asObject());
 		priorityColumn.setCellFactory(new Cell());
 		scheduler = new FactoryPSA().cteate();

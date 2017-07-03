@@ -21,14 +21,11 @@ import model.ResultModel;
  */
 public class SJFController extends Controller {
 	@FXML private TableColumn<ResultModel, Float> needColumn;
-	@FXML private TableColumn<ResultModel, String> statusColumn;
 	@FXML 
 	private void initialize() {
 		setUpTableView();
 		needColumn.setCellValueFactory(cellData->cellData.getValue().needTimeProperty().asObject());
 		needColumn.setCellFactory(new CellFloat());
-		statusColumn.setCellValueFactory(cellData->new SimpleObjectProperty<>(agrs[cellData.getValue().getStatus()]));
-		statusColumn.setCellFactory(new CellString());
 		scheduler = new FactorySRTF().cteate();
 	}
 	@Override

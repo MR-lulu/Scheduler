@@ -16,6 +16,7 @@ public class InitializionFormFileTest {
 	@Test
 	public void test(){
 		InitializationFormFile initializion = new InitializationFormFile();
+		@SuppressWarnings("static-access")
 		LinkedList<PCB> list = initializion.getLinkedListFormFile();
 		for(PCB pcb : list){
 			System.out.println("-------------------");

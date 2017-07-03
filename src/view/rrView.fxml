@@ -11,6 +11,7 @@
         <columns>
           <TableColumn fx:id="pidColumn" prefWidth="75.0" text="pid" />
             <TableColumn fx:id="arriveColumn" prefWidth="75.0" text="到达时间" />
+            <TableColumn fx:id="statusColumn" prefWidth="75.0" text="状态" />
             <TableColumn fx:id="needColumn" prefWidth="75.0" text="需要时间" />
           <TableColumn fx:id="startColumn" prefWidth="75.0" text="开始时间" />
             <TableColumn fx:id="finishColumn" prefWidth="75.0" text="结束时间" />
@@ -38,27 +39,27 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="120.0" text="开始调度" GridPane.columnIndex="2">
+            <Button fx:id="initIButton" mnemonicParsing="false" onAction="#initIPress" prefHeight="34.0" prefWidth="120.0" text="输入初始化" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="120.0" text="文件初始化">
+            <Button fx:id="initButton" mnemonicParsing="false" onAction="#initPress" prefHeight="34.0" prefWidth="120.0" text="文件初始化">
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="120.0" text="增加进程" GridPane.columnIndex="3">
+            <Button fx:id="beginButton" mnemonicParsing="false" onAction="#beginPress" prefHeight="34.0" prefWidth="120.0" text="开始调度" GridPane.columnIndex="3">
                <GridPane.margin>
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="endButton" mnemonicParsing="false" onAction="#endPress" prefHeight="34.0" prefWidth="120.0" text="结束进程" GridPane.columnIndex="4">
+            <Button fx:id="processButton" mnemonicParsing="false" onAction="#proPress" prefHeight="34.0" prefWidth="120.0" text="调度过程" GridPane.columnIndex="4">
                <GridPane.margin>
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="120.0" text="随机初始化" GridPane.columnIndex="1" />
+            <Button fx:id="initRButton" mnemonicParsing="false" onAction="#initRPress" prefHeight="34.0" prefWidth="120.0" text="随机初始化" GridPane.columnIndex="1" />
          </children>
          <BorderPane.margin>
             <Insets top="5.0" />

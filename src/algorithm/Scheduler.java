@@ -8,6 +8,7 @@ import model.PCB;
 import model.ResultModel;
 
 public abstract class Scheduler {
+	protected ArrayList<String> sequence;
 	protected LinkedList<PCB> List;
 	public void addProcess(PCB pcb){
 		this.List.add(pcb);
@@ -23,7 +24,14 @@ public abstract class Scheduler {
 	{
 		this.List.clear();
 	}
-	public abstract ArrayList<ResultModel>  runProcess();
-	public abstract void  dynamicRun(ObservableList<ResultModel> List);
+	public ArrayList<ResultModel> runProcess(){
+		return null;
+	};
+	public abstract void dynamicRun(ObservableList<ResultModel> List);
+	public ArrayList<String> getList()
+	{
+		return this.sequence;
+	}
 }
+
 

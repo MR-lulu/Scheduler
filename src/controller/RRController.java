@@ -24,4 +24,7 @@ public class RRController extends Controller{
 			resultData.remove(index);
 		}
 	}
+	@FXML public void beginPress(){
+		
+	}
 }

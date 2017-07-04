@@ -19,6 +19,7 @@ public class InitializationRandom {
 			aPcb.setArriveTime(arrivetime);
 			aPcb.setNeedTime(needtime);
 			aPcb.setPriority(priority);
+			aPcb.setState(3);
 			int pid = pidmin;
 			pidmin++;
 			list.add(aPcb);

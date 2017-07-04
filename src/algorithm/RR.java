@@ -162,7 +162,7 @@ public void sort(ObservableList<ResultModel> List) {
 	{
 		 for(int j=0;j<=i;j++)
 		 {
-			 if(List.get(i).getPcb().getArriveTime()<List.get(j).getPcb().getArriveTime())
+			 if(List.get(i).getPcb().getArriveTime()<=List.get(j).getPcb().getArriveTime())
 			 {
 				 PCB temp=new PCB();
 				 //赋值给中间值
@@ -184,6 +184,7 @@ public void sort(ObservableList<ResultModel> List) {
 					tResultModel.setServerTime(temp.getServiceTime());
 					tResultModel.setPriority(temp.getPriority());
 					tResultModel.setStatus(3);
+					tResultModel.setArriveTime(temp.getArriveTime());
 					tResultModel.setPid(temp.getPid());
 					tResultModel.setStartTime(temp.getStartTime());
 					tResultModel.setFinishTime(temp.getFinishTime());

@@ -11,7 +11,7 @@ public class PSA extends Scheduler{
 	public PSA(LinkedList<PCB> list)
 	{
 		//this.List =new LinkedList<PCB>();
-		List = list;
+		this.list = list;
 		sequence=new ArrayList<String>();
 	}
 
@@ -23,7 +23,7 @@ public class PSA extends Scheduler{
 				 if(List.get(i).getPcb().getArriveTime()<List.get(j).getPcb().getArriveTime())
 				 {
 					 PCB temp=new PCB();
-					 //¸³Öµ¸øÖĞ¼äÖµ
+					 //èµ‹å€¼ç»™ä¸­é—´å€¼
 					 
 					 temp.setArriveTime(List.get(i).getPcb().getArriveTime());
 					 temp.setFinishTime(List.get(i).getPcb().getFinishTime());
@@ -42,6 +42,7 @@ public class PSA extends Scheduler{
 						tResultModel.setServerTime(temp.getServiceTime());
 						tResultModel.setPriority(temp.getPriority());
 						tResultModel.setStatus(3);
+						tResultModel.setArriveTime(temp.getArriveTime());
 						tResultModel.setPid(temp.getPid());
 						tResultModel.setStartTime(temp.getStartTime());
 						tResultModel.setFinishTime(temp.getFinishTime());
@@ -56,7 +57,7 @@ public class PSA extends Scheduler{
 	{
 		sort(List);
 		out(List);
-		System.out.println("+++++++++++++¿ªÊ¼ÔËĞĞ+++++++++");
+		System.out.println("+++++++++++++å¼€å§‹è¿è¡Œ+++++++++");
 		float nowtime=0;
 		int value=0;
 		int end=0;
@@ -70,21 +71,21 @@ public class PSA extends Scheduler{
 		 t.setPid(this.List.get(0).getPid());
 		 t.setNeedTime(this.List.get(0).getNeedTime()-1);
 		 t.setPriority(this.List.get(0).getPriority()+3);
-		 t.setStatus(1);//Íê³ÉµÄÈÎÎñÉèÖÃÎª2£¬¾ÍĞ÷µÄÎª0£¬ÔËĞĞµÄÎª1
+		 t.setStatus(1);//å®Œæˆçš„ä»»åŠ¡è®¾ç½®ä¸º2ï¼Œå°±ç»ªçš„ä¸º0ï¼Œè¿è¡Œçš„ä¸º1
 		 t.setStartTime(this.List.get(0).getArriveTime());
 		this.List.set(0, t);*/
 		for(;end<List.size();)
 		{
-			ResultModel tResultModel=new ResultModel();
-			PCB tPcb=new PCB();
+			//ResultModel tResultModel=new ResultModel();
+			//PCB tPcb=new PCB();
 			setready(nowtime,List);
 			out(List);
 			value=findHigh(nowtime,List);
 			
-			if(value==-1)//Ã»ÓĞÈÎÎñµ½´ïµÄÇé¿ö£¬cpu¿ÕÏĞ
+			if(value==-1)//æ²¡æœ‰ä»»åŠ¡åˆ°è¾¾çš„æƒ…å†µï¼Œcpuç©ºé—²
 			{
 				nowtime++;
-				System.out.println("cpu¿ÕÏĞ||||||||||||||||||||||||||||||||||||||||||");
+				System.out.println("cpuç©ºé—²||||||||||||||||||||||||||||||||||||||||||");
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -97,9 +98,9 @@ public class PSA extends Scheduler{
 			else if(value>=0)
 			{
 				
-				if(List.get(value).getStartTime()==0&&List.get(value).getStartTime()!=List.get(value).getPcb().getArriveTime())//Èç¹ûÊÇµÚÒ»´ÎÔËĞĞÉèÖÃÆäÔËĞĞÊ±¼ä
+				if(List.get(value).getStartTime()==0&&List.get(value).getStartTime()!=List.get(value).getPcb().getArriveTime())//å¦‚æœæ˜¯ç¬¬ä¸€æ¬¡è¿è¡Œè®¾ç½®å…¶è¿è¡Œæ—¶é—´
 				{
-					System.out.println("µÚ"+List.get(value).getPid()+"¸ö¿ªÊ¼----------");
+					System.out.println("ç¬¬"+List.get(value).getPid()+"ä¸ªå¼€å§‹----------");
 					List.get(value).setStartTime(nowtime);
 				}
 				else {
@@ -128,7 +129,7 @@ public class PSA extends Scheduler{
 				//tResultModel.setServerTime(tPcb.getServiceTime());
 				//tResultModel.setPriority(tPcb.getPriority());
 				//tResultModel.setStatus(1);
-				if(List.get(value).getNeedTime()==0)//Èç¹ûÈÎÎñ½áÊøÉèÖÃÆä½áÊøÊ±¼äºÍÉèÖÃ×´Ì¬Îª½áÊø
+				if(List.get(value).getNeedTime()==0)//å¦‚æœä»»åŠ¡ç»“æŸè®¾ç½®å…¶ç»“æŸæ—¶é—´å’Œè®¾ç½®çŠ¶æ€ä¸ºç»“æŸ
 				{
 					//tPcb.setFinishTime(nowtime+1);
 					List.get(value).setFinishTime(nowtime+1);
@@ -140,20 +141,20 @@ public class PSA extends Scheduler{
 					List.get(value).setStatus(2);
 					List.get(value).setTurnaroundTime(List.get(value).getPcb().getFinishTime()-List.get(value).getPcb().getArriveTime());
 					List.get(value).setRturnaroundTime((List.get(value).getPcb().getFinishTime()-List.get(value).getPcb().getArriveTime())/List.get(value).getPcb().getServiceTime());
-					System.out.println("µÚ"+value+"¸ö½áÊø");
+					System.out.println("ç¬¬"+value+"ä¸ªç»“æŸ");
 					end++;
 				}
 				//tResultModel.setPcb(tPcb);
 				//List.set(value,tResultModel);
 				System.out.println(value);
-				 System.out.println("Ãû×Ö"+List.get(value).getPid()+" "+value);
-			     System.out.println("ÓÅÏÈ¼¶"+List.get(value).getPcb().getPriority());
-			     System.out.println("µ½´ïÊ±¼ä"+List.get(value).getPcb().getArriveTime());
-			     System.out.println("¿ªÊ¼Ê±¼ä"+List.get(value).getStartTime());
-			     System.out.println("ĞèÒªÊ±¼ä"+List.get(value).getPcb().getNeedTime());
-			     System.out.println("·şÎñÊ±¼ä"+List.get(value).getPcb().getServiceTime());
-			     System.out.println("Íê³ÉÊ±¼ä"+List.get(value).getFinishTime());
-			     System.out.println("×´Ì¬"+List.get(value).getPcb().getStatus());
+				 System.out.println("åå­—"+List.get(value).getPid()+" "+value);
+			     System.out.println("ä¼˜å…ˆçº§"+List.get(value).getPcb().getPriority());
+			     System.out.println("åˆ°è¾¾æ—¶é—´"+List.get(value).getPcb().getArriveTime());
+			     System.out.println("å¼€å§‹æ—¶é—´"+List.get(value).getStartTime());
+			     System.out.println("éœ€è¦æ—¶é—´"+List.get(value).getPcb().getNeedTime());
+			     System.out.println("æœåŠ¡æ—¶é—´"+List.get(value).getPcb().getServiceTime());
+			     System.out.println("å®Œæˆæ—¶é—´"+List.get(value).getFinishTime());
+			     System.out.println("çŠ¶æ€"+List.get(value).getPcb().getStatus());
 			     System.out.println("-----");
 			     try {
 					Thread.sleep(1000);
@@ -181,7 +182,7 @@ public class PSA extends Scheduler{
 		{
 			return -1;
 		}*/
-		ResultModel tResultModel=new ResultModel();
+		//ResultModel tResultModel=new ResultModel();
 		for(int i1=0;i1<List.size();i1++)
 		{
 			//PCB tPcb=new PCB();
@@ -208,35 +209,20 @@ public class PSA extends Scheduler{
 	}
 	public void setready(float nowtime,ObservableList<ResultModel> List)
 	{
-		System.out.println("===========µ±Ç°¾ÍĞ÷¶ÓÁĞ=============");
+		System.out.println("===========å½“å‰å°±ç»ªé˜Ÿåˆ—=============");
 		for(int i1=0;i1<List.size();i1++)
 		{
-			PCB tPcb=new PCB();
-			ResultModel tResultModel=new ResultModel();
+			//PCB tPcb=new PCB();
+			//ResultModel tResultModel=new ResultModel();
 			if(List.get(i1).getPcb().getArriveTime()<=nowtime&&(List.get(i1).getPcb().getStatus()==3||List.get(i1).getPcb().getStatus()==1))
 			{
-				tPcb.setStartTime(List.get(i1).getPcb().getStartTime());
-				tPcb.setArriveTime(List.get(i1).getPcb().getArriveTime());
-				tPcb.setPid(List.get(i1).getPcb().getPid());
-				tPcb.setServiceTime(List.get(i1).getPcb().getServiceTime());
-				tPcb.setNeedTime(List.get(i1).getPcb().getNeedTime());
-				tPcb.setPriority(List.get(i1).getPcb().getPriority());
-				tPcb.setFinishTime(List.get(i1).getPcb().getFinishTime());
+				List.get(i1).setStatus(0);
+				List.get(i1).getPcb().setStatus(0);
 				
-				tPcb.setStatus(0);
-				tResultModel.setPcb(tPcb);
-				tResultModel.setNeedTime(tPcb.getNeedTime());
-				tResultModel.setServerTime(tPcb.getServiceTime());
-				tResultModel.setPriority(tPcb.getPriority());
-				tResultModel.setStatus(0);
-				tResultModel.setPid(List.get(i1).getPcb().getPid());
-				tResultModel.setStartTime(List.get(i1).getStartTime());
-				tResultModel.setFinishTime(List.get(i1).getPcb().getFinishTime());
-				List.set(i1, tResultModel);
 				
-				System.out.println("Ãû×Ö"+List.get(i1).getPid()+" "+i1);
-				System.out.println("×´Ì¬"+List.get(i1).getPcb().getStatus());
-			    System.out.println("ÓÅÏÈ¼¶"+List.get(i1).getPcb().getPriority());
+				System.out.println("åå­—"+List.get(i1).getPid()+" "+i1);
+				System.out.println("çŠ¶æ€"+List.get(i1).getPcb().getStatus());
+			    System.out.println("ä¼˜å…ˆçº§"+List.get(i1).getPcb().getPriority());
 			}
 			
 			//float min=this.List.get(i).getServiceTime();
@@ -265,15 +251,15 @@ public class PSA extends Scheduler{
 				//tPcb.setFinishTime(List.get(i1).getPcb().getFinishTime());
 				List.get(i1).setStatus(0);
 				List.get(i1).getPcb().setStatus(0);
-				System.out.println("ÀÏ»¯½á¹û£¨£¨£¨£¨£©£©£©£©£©£©");
-				 System.out.println("Ãû×Ö"+List.get(i1).getPid()+" "+i1);
-			     System.out.println("ÓÅÏÈ¼¶"+List.get(i1).getPcb().getPriority());
-			     System.out.println("µ½´ïÊ±¼ä"+List.get(i1).getPcb().getArriveTime());
-			     System.out.println("¿ªÊ¼Ê±¼ä"+List.get(i1).getStartTime());
-			     System.out.println("×´Ì¬"+List.get(i1).getPcb().getStatus());
-			     System.out.println("ĞèÒªÊ±¼ä"+List.get(i1).getPcb().getNeedTime());
-			     System.out.println("·şÎñÊ±¼ä"+List.get(i1).getPcb().getServiceTime());
-			     System.out.println("Íê³ÉÊ±¼ä"+List.get(i1).getFinishTime());
+				System.out.println("è€åŒ–ç»“æœï¼ˆï¼ˆï¼ˆï¼ˆï¼‰ï¼‰ï¼‰ï¼‰ï¼‰ï¼‰");
+				 System.out.println("åå­—"+List.get(i1).getPid()+" "+i1);
+			     System.out.println("ä¼˜å…ˆçº§"+List.get(i1).getPcb().getPriority());
+			     System.out.println("åˆ°è¾¾æ—¶é—´"+List.get(i1).getPcb().getArriveTime());
+			     System.out.println("å¼€å§‹æ—¶é—´"+List.get(i1).getStartTime());
+			     System.out.println("çŠ¶æ€"+List.get(i1).getPcb().getStatus());
+			     System.out.println("éœ€è¦æ—¶é—´"+List.get(i1).getPcb().getNeedTime());
+			     System.out.println("æœåŠ¡æ—¶é—´"+List.get(i1).getPcb().getServiceTime());
+			     System.out.println("å®Œæˆæ—¶é—´"+List.get(i1).getFinishTime());
 			
 				
 			}
@@ -282,34 +268,34 @@ public class PSA extends Scheduler{
 	}
 	public void out(ObservableList<ResultModel> List)
 	{
-		System.out.println("<<<<<<<<<<<<<<<ËùÓĞ½ø³ÌÇé¿ö>>>>>>>>>>>>>>>>>>>>");
+		System.out.println("<<<<<<<<<<<<<<<æ‰€æœ‰è¿›ç¨‹æƒ…å†µ>>>>>>>>>>>>>>>>>>>>");
 		for(int i1=0;i1<List.size();i1++)
 		{
-		     System.out.println("Ãû×Ö"+List.get(i1).getPid()+" "+i1);
-		     System.out.println("ÓÅÏÈ¼¶"+List.get(i1).getPriority());
-		     System.out.println("µ½´ïÊ±¼ä"+List.get(i1).getPcb().getArriveTime());
-		     System.out.println("¿ªÊ¼Ê±¼ä"+List.get(i1).getStartTime());
-		     System.out.println("×´Ì¬"+List.get(i1).getStatus());
-		     System.out.println("ĞèÒªÊ±¼ä"+List.get(i1).getNeedTime());
-		     System.out.println("·şÎñÊ±¼ä"+List.get(i1).getPcb().getServiceTime());
-		     System.out.println("Íê³ÉÊ±¼ä"+List.get(i1).getFinishTime());
+		     System.out.println("åå­—"+List.get(i1).getPid()+" "+i1);
+		     System.out.println("ä¼˜å…ˆçº§"+List.get(i1).getPriority());
+		     System.out.println("åˆ°è¾¾æ—¶é—´"+List.get(i1).getArriveTime());
+		     System.out.println("å¼€å§‹æ—¶é—´"+List.get(i1).getStartTime());
+		     System.out.println("çŠ¶æ€"+List.get(i1).getStatus());
+		     System.out.println("éœ€è¦æ—¶é—´"+List.get(i1).getNeedTime());
+		     System.out.println("æœåŠ¡æ—¶é—´"+List.get(i1).getPcb().getServiceTime());
+		     System.out.println("å®Œæˆæ—¶é—´"+List.get(i1).getFinishTime());
 		}
 		System.out.println("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");
 	}
-	public void out1()
-	{
-		System.out.println("<<<<<<<<<<<<<<<ËùÓĞ½ø³ÌÇé¿ö>>>>>>>>>>>>>>>>>>>>");
-		for(int i1=0;i1<this.List.size();i1++)
-		{
-		     System.out.println("Ãû×Ö"+this.List.get(i1).getPid()+" "+i1);
-		     System.out.println("ÓÅÏÈ¼¶"+this.List.get(i1).getPriority());
-		     System.out.println("µ½´ïÊ±¼ä"+this.List.get(i1).getArriveTime());
-		     System.out.println("¿ªÊ¼Ê±¼ä"+this.List.get(i1).getStartTime());
-		     System.out.println("×´Ì¬"+this.List.get(i1).getStatus());
-		     System.out.println("ĞèÒªÊ±¼ä"+this.List.get(i1).getNeedTime());
-		     System.out.println("·şÎñÊ±¼ä"+this.List.get(i1).getServiceTime());
-		     System.out.println("Íê³ÉÊ±¼ä"+this.List.get(i1).getFinishTime());
-		}
-		System.out.println("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");
-	}
+//	public void out1()
+//	{
+//		System.out.println("<<<<<<<<<<<<<<<æ‰€æœ‰è¿›ç¨‹æƒ…å†µ>>>>>>>>>>>>>>>>>>>>");
+//		for(int i1=0;i1<this.List.size();i1++)
+//		{
+//		     System.out.println("åå­—"+this.List.get(i1).getPid()+" "+i1);
+//		     System.out.println("ä¼˜å…ˆçº§"+this.List.get(i1).getPriority());
+//		     System.out.println("åˆ°è¾¾æ—¶é—´"+this.List.get(i1).getArriveTime());
+//		     System.out.println("å¼€å§‹æ—¶é—´"+this.List.get(i1).getStartTime());
+//		     System.out.println("çŠ¶æ€"+this.List.get(i1).getStatus());
+//		     System.out.println("éœ€è¦æ—¶é—´"+this.List.get(i1).getNeedTime());
+//		     System.out.println("æœåŠ¡æ—¶é—´"+this.List.get(i1).getServiceTime());
+//		     System.out.println("å®Œæˆæ—¶é—´"+this.List.get(i1).getFinishTime());
+//		}
+//		System.out.println("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");
+//	}
 }

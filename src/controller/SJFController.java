@@ -4,6 +4,7 @@ package controller;
 
 import java.util.LinkedList;
 
+import algorithm.Factory;
 import algorithm.FactorySRTF;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -26,7 +27,8 @@ public class SJFController extends Controller {
 		setUpTableView();
 		needColumn.setCellValueFactory(cellData->cellData.getValue().needTimeProperty().asObject());
 		needColumn.setCellFactory(new CellFloat());
-		scheduler = new FactorySRTF().cteate();
+		Factory factory = new FactorySRTF();
+		scheduler = factory.cteate();
 	}
 	@Override
 	public void beginPress() {
@@ -36,6 +38,9 @@ public class SJFController extends Controller {
 			f = false;
 			new Thread(()->{
 				scheduler.dynamicRun(resultData);
+				for(ResultModel model:resultData){
+					System.out.println(model.getStatus());
+				}
 			}).start();
 		} else {
 			SimpleErrorAlert alert = new SimpleErrorAlert("错误", "未初始化", "请先完成初始化");

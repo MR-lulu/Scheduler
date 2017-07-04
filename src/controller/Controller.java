@@ -11,6 +11,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -41,7 +45,7 @@ import model.ResultModel;
 public class Controller {
 	@FXML protected TableColumn<ResultModel, Integer> pidColumn;
 	@FXML protected TableColumn<ResultModel, Float> startColumn;
-	@FXML private TableColumn<ResultModel, String> statusColumn;
+	@FXML protected TableColumn<ResultModel, String> statusColumn;
 	@FXML protected TableColumn<ResultModel, Float> finishColumn;
 	@FXML protected TableColumn<ResultModel, Float> turnColumn;
 	@FXML protected TableColumn<ResultModel, Float> rturnColumn;
@@ -51,6 +55,7 @@ public class Controller {
 	@FXML protected TableView<ResultModel> tableView;
 	protected ObservableList<ResultModel> resultData = FXCollections.observableArrayList();
 	@FXML protected Button beginButton;
+	@FXML protected Button processButton;
 	@FXML protected Button initButton;
 	@FXML protected Button initRButton;
 	@FXML protected Button initIButton;
@@ -58,23 +63,23 @@ public class Controller {
 	protected boolean f = false;
 	private static int pid = 1000;
 	protected final String[] agrs= {"就绪","运行","完成","等待"};
-	
+
 	protected void setUpTableView(){
 		//设置tableView表格内所填值的元素
 		pidColumn.setCellValueFactory(CellData->CellData.getValue().pidProperty().asObject());
 		arriveColumn.setCellValueFactory(CellData->CellData.getValue().arriverTimeProperty().asObject());
-		statusColumn.setCellValueFactory(cellData->new SimpleObjectProperty<>(agrs[cellData.getValue().getStatus()]));
-		statusColumn.setCellFactory(new CellString());
+		statusColumn.setCellValueFactory(CellData->new SimpleObjectProperty<>(agrs[CellData.getValue().getStatus()]));
 		startColumn.setCellValueFactory(CellData->CellData.getValue().startTimeProperty().asObject());
 		finishColumn.setCellValueFactory(CellData->CellData.getValue().finishTimeProperty().asObject());
 		turnColumn.setCellValueFactory(CellData->CellData.getValue().turnaroundTimeProperty().asObject());
 		rturnColumn.setCellValueFactory(CellData->CellData.getValue().rturnaroundTimeProperty().asObject());
-		
+
 		Cell cell = new Cell();
 		CellFloat tableCell = new CellFloat(); 
 		pidColumn.setCellFactory(cell);
 		arriveColumn.setCellFactory(tableCell);
 		startColumn.setCellFactory(tableCell);
+		statusColumn.setCellFactory(new CellString());
 		finishColumn.setCellFactory(tableCell);
 		turnColumn.setCellFactory(tableCell);
 		rturnColumn.setCellFactory(tableCell);		
@@ -138,7 +143,7 @@ public class Controller {
 	@FXML
 	public void initIPress(){
 		Dialog<LinkedList<PCB>> dialog = new Dialog<LinkedList<PCB>>();
-	
+
 		dialog.setTitle("输入");
 		dialog.setHeaderText("请输入进程的到达时间，需要时间和优先级");
 		ButtonType nextButtonType = new ButtonType("下一步",ButtonData.NEXT_FORWARD);
@@ -154,7 +159,7 @@ public class Controller {
 		TextField needTime = new TextField();
 		TextField priority = new TextField("0");
 		Label pidLabel = new Label("1000");
-		
+
 		grid.add(new Label("pid:"), 0, 0);
 		grid.add(pidLabel, 1, 0);
 		grid.add(new Label("到达时间:"), 0, 1);
@@ -171,17 +176,17 @@ public class Controller {
 			if (value == nextButtonType) {
 				if (Regular_expression.isNumeric(arriveTime.getText()) 
 						&& Regular_expression.isNumeric(needTime.getText())) {
-				InitializationInput.setInput(arriveTime.getText(), needTime.getText(),priority.getText());
-				arriveTime.setText("");
-				needTime.setText("");
-				priority.setText("0");
-				pidLabel.setText(String.valueOf(pid));
-				pid++;
-				return null;
-			} else {
-				SimpleErrorAlert alert = new SimpleErrorAlert("错误", "输入格式错误", "请重新输入");
-				alert.show();
-			} 
+					InitializationInput.setInput(arriveTime.getText(), needTime.getText(),priority.getText());
+					arriveTime.setText("");
+					needTime.setText("");
+					priority.setText("0");
+					pidLabel.setText(String.valueOf(pid));
+					pid++;
+					return null;
+				} else {
+					SimpleErrorAlert alert = new SimpleErrorAlert("错误", "输入格式错误", "请重新输入");
+					alert.show();
+				} 
 			} if (value == finishButtonType) {
 				dialog.hide();
 				dialog.close();
@@ -194,6 +199,39 @@ public class Controller {
 			initList(result);
 			f = true;
 		});
+	}
+	@FXML public void proPress(){
+		Dialog<Void> dialog = new Dialog<Void>();
+		dialog.setTitle("调度过程");
+		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK,ButtonType.CLOSE);
+		dialog.getDialogPane().setPrefSize(600, 500);
+
+		final NumberAxis xAxis = new NumberAxis();
+		final CategoryAxis yAxis = new CategoryAxis();
+		final LineChart<Number,String> lineChart = 
+				new LineChart<Number,String>(xAxis,yAxis);
+
+		lineChart.setTitle("算法调度过程");
+		dialog.getDialogPane().setContent(lineChart);
+		lineChart.setLegendVisible(false);
+		
+		ArrayList<String> list = scheduler.getList();
+	/*	ArrayList<String> list = new ArrayList<String>();
+		list.add("1000");
+		list.add("1000");
+		list.add("1001");
+		list.add("1002");
+		list.add("1001");*/
+		XYChart.Series series[] = new XYChart.Series[list.size()];
+		
+		for (int i = 0; i < list.size(); i++) {
+			series[i] = new XYChart.Series();
+			for (int j = 0; j < 2; j++) {
+				series[i].getData().add(new XYChart.Data(i+j, "进程"+list.get(i)));
+			}
+			lineChart.getData().add(series[i]);
+		}
+		dialog.showAndWait();
 	}
 }
 class Cell implements Callback<TableColumn<ResultModel,Integer>, TableCell<ResultModel,Integer>>{

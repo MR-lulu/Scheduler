@@ -40,7 +40,7 @@
         </rowConstraints>
          <children>
             <Button fx:id="initButton" mnemonicParsing="false" onAction="#initPress" prefHeight="34.0" prefWidth="105.0" text="文件初始化" />
-            <Button layoutX="10.0" layoutY="8.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="105.0" text="结束进程" GridPane.columnIndex="4" />
+            <Button fx:id="processButton" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" onAction="#proPress" prefHeight="34.0" prefWidth="105.0" text="调度过程" GridPane.columnIndex="4" />
             <Button fx:id="beginButton" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" onAction="#beginPress" prefHeight="34.0" prefWidth="105.0" text="开始调度" GridPane.columnIndex="3" />
             <Button fx:id="initIButton" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" onAction="#initIPress" prefHeight="34.0" prefWidth="105.0" text="输入初始化" GridPane.columnIndex="2" />
             <Button fx:id="initRButton" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" onAction="#initRPress" prefHeight="34.0" prefWidth="105.0" text="随机初始化" GridPane.columnIndex="1" />

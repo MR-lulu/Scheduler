@@ -1,4 +1,9 @@
 package algorithm;
+
+import java.util.LinkedList;
+
+import model.PCB;
+
 /**
  * ClassName: FactoryRR 
  * @Description: Éú²úRRËã·¨
@@ -9,8 +14,8 @@ public class FactoryRR implements Factory{
 
 	@Override
 	public Scheduler cteate() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedList<PCB> list=new LinkedList<PCB>();
+		return new RR(list);
 	}
 	
 }

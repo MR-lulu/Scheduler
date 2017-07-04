@@ -62,13 +62,13 @@ public class Controller {
 	protected Scheduler scheduler;
 	protected boolean f = false;
 	private static int pid = 1000;
-	protected final String[] agrs= {"就绪","运行","完成","等待"};
 
 	protected void setUpTableView(){
 		//设置tableView表格内所填值的元素
 		pidColumn.setCellValueFactory(CellData->CellData.getValue().pidProperty().asObject());
 		arriveColumn.setCellValueFactory(CellData->CellData.getValue().arriverTimeProperty().asObject());
-		statusColumn.setCellValueFactory(CellData->new SimpleObjectProperty<>(agrs[CellData.getValue().getStatus()]));
+		//statusColumn.setCellValueFactory(CellData->CellData.getValue().statusProperty().asObject());
+		statusColumn.setCellValueFactory(CellData->new SimpleObjectProperty<>(CellData.getValue().getStatusString()));
 		startColumn.setCellValueFactory(CellData->CellData.getValue().startTimeProperty().asObject());
 		finishColumn.setCellValueFactory(CellData->CellData.getValue().finishTimeProperty().asObject());
 		turnColumn.setCellValueFactory(CellData->CellData.getValue().turnaroundTimeProperty().asObject());
@@ -85,21 +85,24 @@ public class Controller {
 		rturnColumn.setCellFactory(tableCell);		
 	}
 	protected void initList(LinkedList<PCB> linkedList) {
-		for(PCB pcb : linkedList){
+		for(PCB pcb:linkedList){
 			scheduler.addProcess(pcb);
+			resultData.add(new ResultModel(pcb,pcb.getPid(), pcb.getState(), pcb.getPriority(), 
+					0, pcb.getArriveTime(),pcb.getNeedTime(), 0, 0, 0,0));
 		}
 	}
 	@FXML
 	public void beginPress() {
 		if (f) {
-			resultData.clear(); //清空结果表格队列
-			ArrayList<ResultModel> list = new ArrayList<ResultModel>(); //结果数组
-
-			list = scheduler.runProcess(); 
-
-			resultData.addAll(list);
 			tableView.setItems(resultData);
 			num.setText(String.valueOf(resultData.size()));
+			f = false;
+			new Thread(()->{
+				scheduler.dynamicRun(resultData);
+				for(ResultModel model:resultData){
+					System.out.println(model.getStatus());
+				}
+			}).start();
 		} else {
 			SimpleErrorAlert alert = new SimpleErrorAlert("错误", "未初始化", "请先完成初始化");
 			alert.show();
@@ -204,7 +207,7 @@ public class Controller {
 		Dialog<Void> dialog = new Dialog<Void>();
 		dialog.setTitle("调度过程");
 		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK,ButtonType.CLOSE);
-		dialog.getDialogPane().setPrefSize(600, 500);
+		dialog.getDialogPane().setPrefSize(1000, 800);
 
 		final NumberAxis xAxis = new NumberAxis();
 		final CategoryAxis yAxis = new CategoryAxis();
@@ -226,6 +229,9 @@ public class Controller {
 		
 		for (int i = 0; i < list.size(); i++) {
 			series[i] = new XYChart.Series();
+			if (list.get(i).equals("-1")) {
+				continue;
+			}
 			for (int j = 0; j < 2; j++) {
 				series[i].getData().add(new XYChart.Data(i+j, "进程"+list.get(i)));
 			}
@@ -270,6 +276,40 @@ class CellFloat implements Callback<TableColumn<ResultModel,Float>, TableCell<Re
 					setGraphic(null);
 				} else {
 					//setTextAlignment(TextAlignment.RIGHT);
+					setText(String.valueOf(item));
+					setAlignment(Pos.CENTER);
+				}
+			}
+
+		};
+	}
+}
+class CellString implements Callback<TableColumn<ResultModel,String>, TableCell<ResultModel,String>>{
+	@Override
+	public TableCell<ResultModel, String> call(TableColumn<ResultModel, String> param) {
+		// TODO Auto-generated method stub
+		return new TableCell<ResultModel, String>(){
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				// TODO Auto-generated method stub
+				super.updateItem(item, empty);
+				if (empty) {
+					setText(null);
+					setGraphic(null);
+				} else {
+					//setTextAlignment(TextAlignment.RIGHT);
+					if (item.equals("等待")) {
+						this.getTableRow().setStyle("-fx-background-color: red");
+					} else if (item.equals("完成")) {
+						this.getTableRow().setStyle("-fx-background-color: CHARTREUSE");
+					} else if (item.equals("运行")) {
+						this.getTableRow().setStyle("-fx-background-color: DODGERBLUE");
+						//this.getTableRow().setTextFill(Color.BLUE);
+					} else if (item.equals("就绪")) {
+						this.getTableRow().setStyle("-fx-background-color: DARKORANGE");
+						//this.getTableRow().setTextFill(Color.DARKGOLDENROD);
+						
+					}
 					setText(String.valueOf(item));
 					setAlignment(Pos.CENTER);
 				}

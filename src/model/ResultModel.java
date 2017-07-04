@@ -24,6 +24,7 @@ public class ResultModel {
 	private FloatProperty finishTime;
 	private FloatProperty turnaroundTime;
 	private FloatProperty rturnaroundTime;
+	private final String[] agrs= {"就绪","运行","完成","等待"};
 	
 	public ResultModel(PCB pcb,int pid,int status,int priority,float serverTime,
 			float arriveTime,float needTime,float startTime,float finishTime,
@@ -77,6 +78,9 @@ public class ResultModel {
     }
     public IntegerProperty statusProperty(){
     	return status;
+    }
+    public String getStatusString() {
+        return agrs[getStatus()];
     }
     public void setPriority(int priority){
     	this.priority.set(priority);

@@ -12,8 +12,8 @@ public class SJF extends Scheduler{
 	
 	public SJF(LinkedList<PCB> list)
 	{
-		//this.List =new LinkedList<PCB>();
-		List = list;
+		//this.list =new Linkedlist<PCB>();
+		this.List = list;
 	}
 	public void sort()//对到达时间进行排序
 	{
@@ -58,7 +58,7 @@ public class SJF extends Scheduler{
 					value=i1;
 				}
 			}
-			//float min=this.List.get(i).getServiceTime();
+			//float min=this.list.get(i).getServiceTime();
 		}
 		return value;
 	}
@@ -148,19 +148,19 @@ public class SJF extends Scheduler{
 		return b;
 		
 	}
-	public void output()//用于测试输出结果
-	{
-		
-		for(int i1=0;i1<this.List.size();i1++)
-		{
-		     System.out.println("名字"+this.List.get(i1).getPid()+" "+i1);
-		     
-		     System.out.println("到达时间"+this.List.get(i1).getArriveTime());
-		     System.out.println("需要时间"+this.List.get(i1).getNeedTime());
-		     System.out.println("服务时间"+this.List.get(i1).getServiceTime());
-		     System.out.println("完成时间"+this.List.get(i1).getFinishTime());
-		}
-	}
+//	public void output()//用于测试输出结果
+//	{
+//		
+//		for(int i1=0;i1<this.list.size();i1++)
+//		{
+//		     System.out.println("名字"+this.list.get(i1).getPid()+" "+i1);
+//		     
+//		     System.out.println("到达时间"+this.list.get(i1).getArriveTime());
+//		     System.out.println("需要时间"+this.list.get(i1).getNeedTime());
+//		     System.out.println("服务时间"+this.list.get(i1).getServiceTime());
+//		     System.out.println("完成时间"+this.list.get(i1).getFinishTime());
+//		}
+//	}
 	@Override
 	public void dynamicRun(ObservableList<ResultModel> List) {
 		// TODO Auto-generated method stub

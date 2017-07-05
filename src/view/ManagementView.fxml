@@ -15,6 +15,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Button fx:id="rrButton" mnemonicParsing="false" onAction="#rrPress" prefHeight="65.0" prefWidth="140.0" text="时间片轮转算法">
@@ -28,6 +29,11 @@
                </GridPane.margin>
             </Button>
             <Button fx:id="psaButton" mnemonicParsing="false" onAction="#psaPress" prefHeight="65.0" prefWidth="140.0" text="动态优先级算法" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="psaButton1" layoutX="20.0" layoutY="228.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="140.0" text="多核调度算法" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javafx.collections.ObservableList;
+//import model.PCB;
+//import model.ResultModel;
 import model.PCB;
 import model.ResultModel;
 
@@ -12,6 +14,7 @@ public class SRTF extends Scheduler {
 	{
 		//this.List =new LinkedList<PCB>();
 		List = list;
+		sequence=new ArrayList<String>();
 	}
 
 	public void sort(ObservableList<ResultModel> List) {
@@ -43,6 +46,7 @@ public class SRTF extends Scheduler {
 						tResultModel.setStatus(3);
 						tResultModel.setPid(temp.getPid());
 						tResultModel.setStartTime(temp.getStartTime());
+						tResultModel.setArriveTime(temp.getArriveTime());
 						tResultModel.setFinishTime(temp.getFinishTime());
 					 //---------------
 					 List.set(j, tResultModel);
@@ -83,6 +87,7 @@ public class SRTF extends Scheduler {
 			
 			if(value==-1)//没有任务到达的情况，cpu空闲
 			{
+				sequence.add("-1");	
 				nowtime++;
 				System.out.println("cpu空闲||||||||||||||||||||||||||||||||||||||||||");
 				try {
@@ -124,6 +129,7 @@ public class SRTF extends Scheduler {
 				tResultModel.setServerTime(tPcb.getServiceTime());
 				tResultModel.setPriority(tPcb.getPriority());
 				tResultModel.setStatus(1);
+				tResultModel.setArriveTime(tPcb.getArriveTime());
 				if(tPcb.getNeedTime()==0)//如果任务结束设置其结束时间和设置状态为结束
 				{
 					tPcb.setFinishTime(nowtime+1);
@@ -137,6 +143,7 @@ public class SRTF extends Scheduler {
 				}
 				tResultModel.setPcb(tPcb);
 				List.set(value,tResultModel);
+				sequence.add(String.valueOf(List.get(value).getPid()));	
 				System.out.println(value);
 				 System.out.println("名字"+List.get(value).getPid()+" "+value);
 			     System.out.println("优先级"+List.get(value).getPcb().getPriority());
@@ -208,7 +215,8 @@ public class SRTF extends Scheduler {
 				tResultModel.setPriority(tPcb.getPriority());
 				tResultModel.setStatus(0);
 				tResultModel.setPid(List.get(i1).getPcb().getPid());
-				tResultModel.setStartTime(List.get(i1).getStartTime());
+				tResultModel.setArriveTime(tPcb.getArriveTime());
+				tResultModel.setStartTime(tPcb.getStartTime());
 				tResultModel.setFinishTime(List.get(i1).getPcb().getFinishTime());
 				List.set(i1, tResultModel);
 				

@@ -15,6 +15,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class ResultModel {
 	private PCB pcb;
 	private IntegerProperty pid;
+	private IntegerProperty cpuid;
 	private IntegerProperty status;
 	private IntegerProperty priority;
 	private FloatProperty serverTime;
@@ -44,6 +45,7 @@ public class ResultModel {
 	}
 	public ResultModel(){
 		this.pid = new SimpleIntegerProperty();
+		this.cpuid = new SimpleIntegerProperty();
 		this.status = new SimpleIntegerProperty();
 		this.priority = new SimpleIntegerProperty();
 		this.serverTime = new SimpleFloatProperty();
@@ -69,6 +71,17 @@ public class ResultModel {
     }
     public void setPid(int pid) {
         this.pid.set(pid);
+    }
+    
+    public int getCupid() {
+        return cpuid.get();
+    }
+
+    public IntegerProperty cpuidProperty() {
+        return cpuid;
+    }
+    public void setCupid(int cupid) {
+        this.cpuid.set(cupid);
     }
     public int getStatus(){
     	return status.get();

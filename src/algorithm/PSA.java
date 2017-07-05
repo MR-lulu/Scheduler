@@ -252,7 +252,14 @@ public class PSA extends Scheduler{
 				tPcb.setPid(List.get(i1).getPcb().getPid());
 				tPcb.setNeedTime(List.get(i1).getPcb().getNeedTime());
 				tPcb.setServiceTime(List.get(i1).getPcb().getServiceTime());
-				tPcb.setPriority(List.get(i1).getPcb().getPriority()-3);
+				if(List.get(i1).getPcb().getPriority()-3<=0)
+				{
+					tPcb.setPriority(0);
+				}
+				else {
+					tPcb.setPriority(List.get(i1).getPcb().getPriority()-3);
+				}
+				
 				tPcb.setFinishTime(List.get(i1).getPcb().getFinishTime());
 				tPcb.setStatus(0);
 				tResultModel.setPcb(tPcb);

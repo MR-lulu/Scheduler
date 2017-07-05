@@ -14,7 +14,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public class ResultModel {
 	private PCB pcb;
-	private IntegerProperty pid;
+	private IntegerProperty pid;   
 	private IntegerProperty cpuid;
 	private IntegerProperty status;
 	private IntegerProperty priority;

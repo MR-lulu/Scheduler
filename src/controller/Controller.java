@@ -101,13 +101,20 @@ public class Controller {
 	}
 	@FXML
 	public void beginPress() {
+		//f = true 即已经初始化
 		if (f) {
 			tableView.setItems(resultData);
 			num.setText(String.valueOf(resultData.size()));
 			f = false;
+			/**
+			 * 普通Java线程
+			 */
 			/*new Thread(()->{
 				scheduler.dynamicRun(resultData);
 			}).start();*/
+			/**
+			 * Javafx线程
+			 */
 			new ScheduleThread(new Task<Void>() {
 				@Override
 				protected Void call() throws Exception {
@@ -115,6 +122,7 @@ public class Controller {
 					return null;
 				}
 			}).run(new Callback<Void, Void>() {
+				//回调函数
 				@Override
 				public Void call(Void param) {
 					proPress();
@@ -128,7 +136,7 @@ public class Controller {
 	}
 	@FXML 
 	public void initPress(){
-		//scheduler.clearList();
+		//文件初始化
 		LinkedList<PCB> linkedList = InitializationFormFile.getLinkedListFormFile();
 		initList(linkedList);
 		SimpleSuccessAlert alert = new SimpleSuccessAlert("提示", "初始化完成", "");
@@ -137,7 +145,7 @@ public class Controller {
 	}
 	@FXML 
 	public void initRPress(){
-		//scheduler.clearList();
+		//随机初始化对话框
 		TextInputDialog dialog = new TextInputDialog("6");
 		dialog.setTitle("输入");
 		dialog.setHeaderText("随机初始化");
@@ -163,58 +171,7 @@ public class Controller {
 	}
 	@FXML
 	public void initIPress(){
-		/*Dialog<LinkedList<PCB>> dialog = new Dialog<LinkedList<PCB>>();
-
-		dialog.setTitle("输入");
-		dialog.setHeaderText("请输入进程的到达时间，需要时间和优先级");
-		ButtonType nextButtonType = new ButtonType("下一步",ButtonData.NEXT_FORWARD);
-		ButtonType finishButtonType = new ButtonType("完成",ButtonData.FINISH);
-		dialog.getDialogPane().getButtonTypes().addAll(nextButtonType,finishButtonType);
-
-		GridPane grid = new GridPane();
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(20, 150, 10, 10));
-
-		TextField arriveTime = new TextField();
-		TextField needTime = new TextField();
-		TextField priority = new TextField("0");
-		Label pidLabel = new Label("1000");
-
-		grid.add(new Label("pid:"), 0, 0);
-		grid.add(pidLabel, 1, 0);
-		grid.add(new Label("到达时间:"), 0, 1);
-		grid.add(arriveTime, 1, 1);
-		grid.add(new Label("需要时间:"), 0, 2);
-		grid.add(needTime, 1, 2);
-		grid.add(new Label("优先级:"), 0, 3);
-		grid.add(priority, 1, 3);
-
-
-		dialog.getDialogPane().setContent(grid);
-
-		dialog.setResultConverter(value->{
-			if (value == nextButtonType) {
-				if (Regular_expression.isNumeric(arriveTime.getText()) 
-						&& Regular_expression.isNumeric(needTime.getText())) {
-					InitializationInput.setInput(arriveTime.getText(), needTime.getText(),priority.getText());
-					arriveTime.setText("");
-					needTime.setText("");
-					priority.setText("0");
-					pidLabel.setText(String.valueOf(pid));
-					pid++;
-					return null;
-				} else {
-					SimpleErrorAlert alert = new SimpleErrorAlert("错误", "输入格式错误", "请重新输入");
-					alert.show();
-				} 
-			} if (value == finishButtonType) {
-				dialog.hide();
-				dialog.close();
-				return InitializationInput.getLinkedListFormFile();
-			}
-			return null;
-		});*/
+		//输入初始化
 		Optional<LinkedList<PCB>> optional = new CreateDialog(true).showAndWait();
 		optional.ifPresent(result->{
 			initList(result);
@@ -222,6 +179,7 @@ public class Controller {
 		});
 	}
 	@FXML public void proPress(){
+		//调度过程对话框
 		Dialog<Void> dialog = new Dialog<Void>();
 		dialog.setTitle("调度过程");
 		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK,ButtonType.CLOSE);
@@ -315,7 +273,6 @@ class CellString implements Callback<TableColumn<ResultModel,String>, TableCell<
 					setText(null);
 					setGraphic(null);
 				} else {
-					//setTextAlignment(TextAlignment.RIGHT);
 					if (item.equals("等待")) {
 						this.getTableRow().setStyle("-fx-background-color: red");
 					} else if (item.equals("完成")) {

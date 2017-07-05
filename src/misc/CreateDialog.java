@@ -20,13 +20,13 @@ import view.ViewHelp;
 
 /**
  * ClassName: CreateDialog 
- * @Description: 创建对话框
+ * @Description: 创建输入初始化对话框
  * @author Mr_blue
  * @date 2017年6月29日
  */
 public class CreateDialog {
 	private static int pid = 1000;
-	private Dialog<LinkedList<PCB>> dialog;
+	private Dialog<LinkedList<PCB>> dialog;  
 	
 	public CreateDialog(boolean isDisable){
 		dialog = new Dialog<LinkedList<PCB>>();
@@ -57,9 +57,10 @@ public class CreateDialog {
 		grid.add(new Label("优先级:"), 0, 3);
 		grid.add(priority, 1, 3);
 
-
+		//设置对话框内的布局
 		dialog.getDialogPane().setContent(grid);
-
+		
+		//对话框内的点击事件
 		dialog.setResultConverter(value->{
 			if (value == nextButtonType) {
 				if (Regular_expression.isNumeric(arriveTime.getText()) 
@@ -70,7 +71,7 @@ public class CreateDialog {
 					priority.setText("0");
 					pidLabel.setText(String.valueOf(pid));
 					pid++;
-					return null;
+					return null; //当返回值为null时showAndWait()不会返回结果
 				} else {
 					SimpleErrorAlert alert = new SimpleErrorAlert("错误", "输入格式错误", "请重新输入");
 					alert.show();
@@ -78,11 +79,12 @@ public class CreateDialog {
 			} if (value == finishButtonType) {
 				dialog.hide();
 				dialog.close();
-				return InitializationInput.getLinkedListFormFile();
+				return InitializationInput.getLinkedListFormFile(); //返回已经初始化的PCB队列
 			}
 			return null;
 		});
 	}
+	//显示对话框并等待返回结果
 	public Optional<LinkedList<PCB>> showAndWait(){
 		return dialog.showAndWait();
 	}

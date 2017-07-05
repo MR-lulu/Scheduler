@@ -46,7 +46,7 @@ public class CreateDialog {
 		TextField needTime = new TextField();
 		TextField priority = new TextField("0");
 		Label pidLabel = new Label("1000");
-		priority.setDisable(isDisable);
+		priority.setDisable(isDisable); //禁止用户输入优先级
 		
 		grid.add(new Label("pid:"), 0, 0);
 		grid.add(pidLabel, 1, 0);

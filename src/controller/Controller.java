@@ -103,8 +103,8 @@ public class Controller {
 	public void beginPress() {
 		//f = true 即已经初始化
 		if (f) {
-			tableView.setItems(resultData);
-			num.setText(String.valueOf(resultData.size()));
+			tableView.setItems(resultData); //设置表格的值
+			num.setText(String.valueOf(resultData.size())); //设置进程数量的Label
 			f = false;
 			/**
 			 * 普通Java线程

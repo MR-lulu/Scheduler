@@ -27,6 +27,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
+import misc.CreateDialog;
 import misc.InitializationFormFile;
 import misc.InitializationInput;
 import misc.InitializationRandom;
@@ -145,7 +146,7 @@ public class Controller {
 	}
 	@FXML
 	public void initIPress(){
-		Dialog<LinkedList<PCB>> dialog = new Dialog<LinkedList<PCB>>();
+		/*Dialog<LinkedList<PCB>> dialog = new Dialog<LinkedList<PCB>>();
 
 		dialog.setTitle("输入");
 		dialog.setHeaderText("请输入进程的到达时间，需要时间和优先级");
@@ -196,8 +197,8 @@ public class Controller {
 				return InitializationInput.getLinkedListFormFile();
 			}
 			return null;
-		});
-		Optional<LinkedList<PCB>> optional = dialog.showAndWait();
+		});*/
+		Optional<LinkedList<PCB>> optional = new CreateDialog(true).showAndWait();
 		optional.ifPresent(result->{
 			initList(result);
 			f = true;

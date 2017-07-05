@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -72,6 +73,7 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -80,7 +82,15 @@
         </rowConstraints>
          <children>
             <Label text="进程数:" />
-            <Label fx:id="num" prefHeight="22.0" prefWidth="64.0" text="0" GridPane.halignment="RIGHT" />
+            <Label fx:id="num" contentDisplay="CENTER" prefHeight="22.0" prefWidth="57.0" text="0" GridPane.halignment="RIGHT" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="25.0" stroke="BLACK" strokeType="INSIDE" width="42.0" GridPane.columnIndex="1" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fff2a" height="25.0" stroke="BLACK" strokeType="INSIDE" width="42.0" GridPane.columnIndex="2" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f20f0f" height="25.0" stroke="BLACK" strokeType="INSIDE" width="42.0" GridPane.columnIndex="3" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffaf21" height="25.0" stroke="BLACK" strokeType="INSIDE" width="42.0" GridPane.columnIndex="4" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="40.0" text="运行" GridPane.columnIndex="1" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="40.0" text="完成" GridPane.columnIndex="2" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="40.0" text="等待" GridPane.columnIndex="3" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="40.0" text="就绪" GridPane.columnIndex="4" />
          </children>
       </GridPane>
    </bottom>

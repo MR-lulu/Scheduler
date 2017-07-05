@@ -5,9 +5,15 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 import algorithm.Scheduler;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -32,6 +38,7 @@ import misc.InitializationFormFile;
 import misc.InitializationInput;
 import misc.InitializationRandom;
 import misc.Regular_expression;
+import misc.ScheduleThread;
 import misc.SimpleErrorAlert;
 import misc.SimpleSuccessAlert;
 import model.PCB;
@@ -98,12 +105,22 @@ public class Controller {
 			tableView.setItems(resultData);
 			num.setText(String.valueOf(resultData.size()));
 			f = false;
-			new Thread(()->{
+			/*new Thread(()->{
 				scheduler.dynamicRun(resultData);
-				for(ResultModel model:resultData){
-					System.out.println(model.getStatus());
+			}).start();*/
+			new ScheduleThread(new Task<Void>() {
+				@Override
+				protected Void call() throws Exception {
+					scheduler.dynamicRun(resultData);
+					return null;
 				}
-			}).start();
+			}).run(new Callback<Void, Void>() {
+				@Override
+				public Void call(Void param) {
+					proPress();
+					return null;
+				}
+			});
 		} else {
 			SimpleErrorAlert alert = new SimpleErrorAlert("错误", "未初始化", "请先完成初始化");
 			alert.show();

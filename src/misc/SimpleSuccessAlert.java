@@ -8,7 +8,7 @@ import javafx.scene.control.Alert;
 public class SimpleSuccessAlert extends Alert {
 
     public SimpleSuccessAlert(String title, String header, String context) {
-        super((AlertType.INFORMATION));
+        super((AlertType.CONFIRMATION));
         setTitle(title);
         setHeaderText(header);
         setContentText(context);

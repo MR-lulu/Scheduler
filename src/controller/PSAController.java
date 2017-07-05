@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.LinkedList;
+import java.util.Optional;
 
 import algorithm.FactoryPSA;
 import javafx.beans.property.SimpleObjectProperty;
@@ -9,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
+import misc.CreateDialog;
 import misc.SimpleErrorAlert;
 import model.PCB;
 import model.ResultModel;
@@ -29,4 +31,14 @@ public class PSAController extends Controller{
 		priorityColumn.setCellFactory(new Cell());
 		scheduler = new FactoryPSA().cteate();
 	}
+	//重载输入初始化方法，使用户可以手动输入优先级
+	@Override
+	public void initIPress() {
+		Optional<LinkedList<PCB>> optional = new CreateDialog(false).showAndWait();
+		optional.ifPresent(result->{
+			initList(result);
+			f = true;
+		});
+	}
+	
 }

@@ -4,6 +4,8 @@ import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * 
@@ -17,6 +19,7 @@ public class ResultModel {
 	private IntegerProperty pid;   
 	private IntegerProperty cpuid;
 	private IntegerProperty status;
+	private StringProperty status1;
 	private IntegerProperty priority;
 	private FloatProperty serverTime;
 	private FloatProperty arriveTime;
@@ -33,7 +36,9 @@ public class ResultModel {
 		
 		this.pcb = pcb;
 		this.pid = new SimpleIntegerProperty(pid);
+		this.cpuid = new SimpleIntegerProperty();
 		this.status = new SimpleIntegerProperty(status);
+		this.status1 = new SimpleStringProperty(agrs[status]);
 		this.priority = new SimpleIntegerProperty(priority);
 		this.serverTime = new SimpleFloatProperty(serverTime);
 		this.arriveTime = new SimpleFloatProperty(arriveTime);
@@ -47,6 +52,7 @@ public class ResultModel {
 		this.pid = new SimpleIntegerProperty();
 		this.cpuid = new SimpleIntegerProperty();
 		this.status = new SimpleIntegerProperty();
+		this.status1 = new SimpleStringProperty();
 		this.priority = new SimpleIntegerProperty();
 		this.serverTime = new SimpleFloatProperty();
 		this.arriveTime = new SimpleFloatProperty();
@@ -86,8 +92,12 @@ public class ResultModel {
     public int getStatus(){
     	return status.get();
     }
+    public StringProperty status1Property(){
+    	return status1;
+    }
     public void setStatus(int status){
-        this.status.set(status);	
+        this.status.set(status);
+        this.status1.set(agrs[status]);
     }
     public IntegerProperty statusProperty(){
     	return status;

@@ -6,13 +6,14 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RRController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FCFSController">
    <center>
       <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="pidColumn" prefWidth="75.0" text="pid" />
             <TableColumn fx:id="arriveColumn" prefWidth="75.0" text="到达时间" />
-            <TableColumn fx:id="statusColumn" prefWidth="75.0" text="状态" />
+            <TableColumn fx:id="status1Column" prefWidth="75.0" text="状态" />
+            <TableColumn fx:id="statusColumn" prefWidth="75.0" text="状态" visible="false" />
             <TableColumn fx:id="needColumn" prefWidth="81.0" text="需要时间" />
           <TableColumn fx:id="startColumn" prefWidth="85.0" text="开始时间" />
             <TableColumn fx:id="finishColumn" prefWidth="83.0" text="结束时间" />

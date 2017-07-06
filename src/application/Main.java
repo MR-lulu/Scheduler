@@ -24,7 +24,7 @@ public class Main extends Application{
 		this.primaryStage = primaryStage;
 		initRootlayout();
 		primaryStage.setHeight(450);
-		primaryStage.setWidth(850);
+		primaryStage.setWidth(870);
 		primaryStage.setTitle("处理机调度算法");
 		primaryStage.show();
 	}

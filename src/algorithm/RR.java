@@ -8,6 +8,7 @@ import model.PCB;
 import model.ResultModel;
 
 public class RR extends Scheduler {
+	private LinkedList aLinkedList=new LinkedList();
 public RR(LinkedList<PCB> list)
 {
 	//this.List =new LinkedList<PCB>();
@@ -22,109 +23,124 @@ public void dynamicRun(ObservableList<ResultModel> List)
 	int nowtime=0;
 	int end=List.size();
 	int num=0;
+	
 	while(end>0)
 	{
-		for(int i=0;i<List.size();i++)
+		setready(nowtime, List);
+		retready(nowtime, List);
+		for(int i=0;i<aLinkedList.size();i++)
 		{
+			
+			num=setready(nowtime, List);
+			retready(nowtime, List);
 			ResultModel tResultModel=new ResultModel();
 			PCB tPcb=new PCB();
+			//out(List);
 			out(List);
-			num=setready(nowtime, List);
-			System.out.println("µ±Ç°¾ÍĞ÷¶ÓÁĞÊıÄ¿"+num+"Ñ­»·Î»Êı"+i+"µ±Ç°Ê±¼ä"+nowtime);
-			out(List);
+			System.out.println(i);
+			//out(List);
+			int value=0;
 			
-			if(num>0)
+			for(int i1=0;i1<aLinkedList.size();i1++)
 			{
-			if(List.get(i).getStatus()==0)
+				System.out.println("é˜Ÿåˆ—"+aLinkedList.get(i1));
+			}
+			System.out.println("å½“å‰å°±ç»ªé˜Ÿåˆ—æ•°ç›®"+num+"å¾ªç¯ä½æ•°"+i+"å½“å‰æ—¶é—´"+nowtime+"å½“å‰è¿è¡Œ");
+			boolean v=true;
+			
+			for(int i2=0;i2<3&&v;i2++)
 			{
-				if(List.get(i).getStartTime()==0&&List.get(i).getStartTime()!=List.get(i).getPcb().getArriveTime())//Èç¹ûÊÇµÚÒ»´ÎÔËĞĞÉèÖÃÆäÔËĞĞÊ±¼ä
-				{
-					System.out.println("µÚ"+List.get(i).getPid()+"¸ö¿ªÊ¼----------");
-					tPcb.setStartTime(nowtime);
-				}
-				else {
-					tPcb.setStartTime(List.get(i).getStartTime());
-					tResultModel.setStartTime(List.get(i).getStartTime());
-				}			
-				tPcb.setArriveTime(List.get(i).getPcb().getArriveTime());
-				tPcb.setPid(List.get(i).getPid());
-				tPcb.setNeedTime(List.get(i).getPcb().getNeedTime()-1);
-				tPcb.setServiceTime(List.get(i).getPcb().getServiceTime()+1);
 				
-				tPcb.setPriority(List.get(i).getPcb().getPriority());
-				tPcb.setStatus(1);
-				
-				tResultModel.setPid(tPcb.getPid());
-				tResultModel.setStartTime(tPcb.getStartTime());
-				tResultModel.setNeedTime(tPcb.getNeedTime());
-				tResultModel.setServerTime(tPcb.getServiceTime());
-				tResultModel.setArriveTime(tPcb.getArriveTime());
-				tResultModel.setPriority(tPcb.getPriority());
-				tResultModel.setStatus(1);
-				tResultModel.setArriveTime(tPcb.getArriveTime());
-				if(tPcb.getNeedTime()==0)//Èç¹ûÈÎÎñ½áÊøÉèÖÃÆä½áÊøÊ±¼äºÍÉèÖÃ×´Ì¬Îª½áÊø
-				{
-					tPcb.setFinishTime(nowtime+1);
-					tResultModel.setFinishTime(nowtime+1);
-					tPcb.setStatus(2);
-					tResultModel.setStatus(2);
-					tResultModel.setTurnaroundTime(tPcb.getFinishTime()-tPcb.getArriveTime());
-					tResultModel.setRturnaroundTime((tPcb.getFinishTime()-tPcb.getArriveTime())/tPcb.getServiceTime());
-					//System.out.println("µÚ"+value+"¸ö½áÊø");
-					end--;
-				}
-				tResultModel.setPcb(tPcb);
-				List.set(i,tResultModel);
-				nowtime++;
-				sequence.add(String.valueOf(List.get(i).getPid()));	
-				 try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} 
-				 System.out.println(i);
-				 System.out.println("Ãû×Ö"+List.get(i).getPid()+" "+"ÓÅÏÈ¼¶"+List.get(i).getPcb().getPriority()+" "+"µ½´ïÊ±¼ä"+List.get(i).getPcb().getArriveTime()
-						 +" "+"¿ªÊ¼Ê±¼ä"+List.get(i).getStartTime()
-						 +" "+"ĞèÒªÊ±¼ä"+List.get(i).getPcb().getNeedTime()
-						 +" "+"·şÎñÊ±¼ä"+List.get(i).getPcb().getServiceTime()
-						 +" "+"Íê³ÉÊ±¼ä"+List.get(i).getFinishTime()
-						 +" "+"×´Ì¬"+List.get(i).getPcb().getStatus());
-			    // System.out.println("ÓÅÏÈ¼¶"+List.get(i).getPcb().getPriority());
-			     //System.out.println("µ½´ïÊ±¼ä"+List.get(i).getPcb().getArriveTime());
-			     //System.out.println("¿ªÊ¼Ê±¼ä"+List.get(i).getStartTime());
-			     //System.out.println("ĞèÒªÊ±¼ä"+List.get(i).getPcb().getNeedTime());
-			     //System.out.println("·şÎñÊ±¼ä"+List.get(i).getPcb().getServiceTime());
-			     //System.out.println("Íê³ÉÊ±¼ä"+List.get(i).getFinishTime());
-			     //System.out.println("×´Ì¬"+List.get(i).getPcb().getStatus());
+				setready(nowtime, List);
+				value=(int) aLinkedList.get(0);
+			if(List.get(value).getStartTime()==0&&List.get(value).getStartTime()!=List.get(value).getPcb().getArriveTime())//å¦‚æœæ˜¯ç¬¬ä¸€æ¬¡è¿è¡Œè®¾ç½®å…¶è¿è¡Œæ—¶é—´
+			{
+				System.out.println("ç¬¬"+List.get(value).getPid()+"ä¸ªå¼€å§‹----------");
+				tPcb.setStartTime(nowtime);
 			}
 			else {
-				continue;
+				tPcb.setStartTime(List.get(value).getStartTime());
+				tResultModel.setStartTime(List.get(value).getStartTime());
+			}			
+			tPcb.setArriveTime(List.get(value).getPcb().getArriveTime());
+			tPcb.setPid(List.get(value).getPid());
+			
+				tPcb.setNeedTime(List.get(value).getPcb().getNeedTime()-1);
+			tPcb.setServiceTime(List.get(value).getPcb().getServiceTime()+1);
+			tPcb.setPriority(List.get(value).getPcb().getPriority());
+			tPcb.setStatus(1);
+			
+			tResultModel.setPid(tPcb.getPid());
+			tResultModel.setStartTime(tPcb.getStartTime());
+			tResultModel.setNeedTime(tPcb.getNeedTime());
+			tResultModel.setServerTime(tPcb.getServiceTime());
+			tResultModel.setArriveTime(tPcb.getArriveTime());
+			tResultModel.setPriority(tPcb.getPriority());
+			tResultModel.setStatus(1);
+			tResultModel.setArriveTime(tPcb.getArriveTime());
+			if(tPcb.getNeedTime()==0)//å¦‚æœä»»åŠ¡ç»“æŸè®¾ç½®å…¶ç»“æŸæ—¶é—´å’Œè®¾ç½®çŠ¶æ€ä¸ºç»“æŸ
+			{
+				tPcb.setFinishTime(nowtime+1);
+				tResultModel.setFinishTime(nowtime+1);
+				tPcb.setStatus(2);
+				tResultModel.setStatus(2);
+				tResultModel.setTurnaroundTime(tPcb.getFinishTime()-tPcb.getArriveTime());
+				tResultModel.setRturnaroundTime((tPcb.getFinishTime()-tPcb.getArriveTime())/tPcb.getServiceTime());
+				//System.out.println("ç¬¬"+value+"ä¸ªç»“æŸ");
+				aLinkedList.remove(0);end--;
+				//System.out.println("é˜Ÿåˆ—0æ˜¯  "+aLinkedList.get(0));
+				//break;
+				v=false;
 			}
+			tResultModel.setPcb(tPcb);
+			List.set(value,tResultModel);
+			nowtime++;
+			//sequence.add(String.valueOf(List.get(0).getPid()));	
+			 try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+			 System.out.println(0);
+			 System.out.println("åå­—"+List.get(value).getPid()+" "+"ä¼˜å…ˆçº§"+List.get(value).getPcb().getPriority()+" "+"åˆ°è¾¾æ—¶é—´"+List.get(value).getPcb().getArriveTime()
+					 +" "+"å¼€å§‹æ—¶é—´"+List.get(value).getStartTime()
+					 +" "+"éœ€è¦æ—¶é—´"+List.get(value).getNeedTime()
+					 +" "+"æœåŠ¡æ—¶é—´"+List.get(value).getServerTime()
+					 +" "+"å®Œæˆæ—¶é—´"+List.get(value).getFinishTime()
+					 +" "+"çŠ¶æ€"+List.get(value).getPcb().getStatus());
+		    // System.out.println("ä¼˜å…ˆçº§"+List.get(i).getPcb().getPriority());
+		     //System.out.println("åˆ°è¾¾æ—¶é—´"+List.get(i).getPcb().getArriveTime());
+		     //System.out.println("å¼€å§‹æ—¶é—´"+List.get(i).getStartTime());
+		     //System.out.println("éœ€è¦æ—¶é—´"+List.get(i).getPcb().getNeedTime());
+		     //System.out.println("æœåŠ¡æ—¶é—´"+List.get(i).getPcb().getServiceTime());
+		     //System.out.println("å®Œæˆæ—¶é—´"+List.get(i).getFinishTime());
+		     //System.out.println("çŠ¶æ€"+List.get(i).getPcb().getStatus());
+		
+	
+			}
+			sequence.add(String.valueOf(List.get(value).getPid()));
+			if(aLinkedList.size()>=1&&v)
+			{
+				System.out.println("ç½®æ¢"+aLinkedList.size());
+			aLinkedList.addLast(aLinkedList.getFirst());
+			aLinkedList.removeFirst();
+			}
+			
 		}
-			else if (num==0) {
-				sequence.add("-1");	
-				nowtime++;
-				 try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} 
-				 break;
-			}
-	}
 	}
 }
 public int setready(float nowtime,ObservableList<ResultModel> List)
 {
-	System.out.println("===========µ±Ç°¾ÍĞ÷¶ÓÁĞ=============");
+	//System.out.println("===========å½“å‰å°±ç»ªé˜Ÿåˆ—=============");
 	int num=0;
 	for(int i1=0;i1<List.size();i1++)
 	{
 		PCB tPcb=new PCB();
 		ResultModel tResultModel=new ResultModel();
-		if(List.get(i1).getPcb().getArriveTime()<=nowtime&&(List.get(i1).getPcb().getStatus()!=2))
+		//System.out.println("æ¯”è¾ƒ1   "+List.get(i1).getPcb().getArriveTime()+" "+nowtime);
+		//System.out.println("æ¯”è¾ƒ2   "+List.get(i1).getPcb().getStatus()+" "+3);
+		if(List.get(i1).getPcb().getArriveTime()<=nowtime&&(List.get(i1).getPcb().getStatus()==3))
 		{
 			tPcb.setStartTime(List.get(i1).getPcb().getStartTime());
 			tPcb.setArriveTime(List.get(i1).getPcb().getArriveTime());
@@ -145,10 +161,11 @@ public int setready(float nowtime,ObservableList<ResultModel> List)
 			tResultModel.setArriveTime(tPcb.getArriveTime());
 			tResultModel.setFinishTime(List.get(i1).getPcb().getFinishTime());
 			List.set(i1, tResultModel);
+			aLinkedList.add(i1);
 			num++;
-			System.out.println("Ãû×Ö"+List.get(i1).getPid()+" "+i1);
-			System.out.println("×´Ì¬"+List.get(i1).getPcb().getStatus());
-		    System.out.println("ÓÅÏÈ¼¶"+List.get(i1).getPcb().getPriority());
+			//System.out.println("åå­—"+List.get(i1).getPid()+" "+i1);
+			//System.out.println("çŠ¶æ€"+List.get(i1).getPcb().getStatus());
+		   // System.out.println("ä¼˜å…ˆçº§"+List.get(i1).getPcb().getPriority());
 		    
 		}
 		
@@ -157,15 +174,58 @@ public int setready(float nowtime,ObservableList<ResultModel> List)
 	System.out.println("==============================");
 	return num;
 }
+public void retready(float nowtime,ObservableList<ResultModel> List) {
+	//System.out.println("===========å½“å‰å°±ç»ªé˜Ÿåˆ—=============");
+		//int num=0;
+		for(int i1=0;i1<List.size();i1++)
+		{
+			PCB tPcb=new PCB();
+			ResultModel tResultModel=new ResultModel();
+			//System.out.println("æ¯”è¾ƒ1   "+List.get(i1).getPcb().getArriveTime()+" "+nowtime);
+			//System.out.println("æ¯”è¾ƒ2   "+List.get(i1).getPcb().getStatus()+" "+3);
+			if(List.get(i1).getPcb().getArriveTime()<=nowtime&&(List.get(i1).getPcb().getStatus()==1))
+			{
+				tPcb.setStartTime(List.get(i1).getPcb().getStartTime());
+				tPcb.setArriveTime(List.get(i1).getPcb().getArriveTime());
+				tPcb.setPid(List.get(i1).getPcb().getPid());
+				tPcb.setServiceTime(List.get(i1).getPcb().getServiceTime());
+				tPcb.setNeedTime(List.get(i1).getPcb().getNeedTime());
+				tPcb.setPriority(List.get(i1).getPcb().getPriority());
+				tPcb.setFinishTime(List.get(i1).getPcb().getFinishTime());
+				
+				tPcb.setStatus(0);
+				tResultModel.setPcb(tPcb);
+				tResultModel.setNeedTime(tPcb.getNeedTime());
+				tResultModel.setServerTime(tPcb.getServiceTime());
+				tResultModel.setPriority(tPcb.getPriority());
+				tResultModel.setStatus(0);
+				tResultModel.setPid(List.get(i1).getPcb().getPid());
+				tResultModel.setStartTime(List.get(i1).getStartTime());
+				tResultModel.setArriveTime(tPcb.getArriveTime());
+				tResultModel.setFinishTime(List.get(i1).getPcb().getFinishTime());
+				List.set(i1, tResultModel);
+				//aLinkedList.add(i1);
+				//num++;
+				//System.out.println("åå­—"+List.get(i1).getPid()+" "+i1);
+				//System.out.println("çŠ¶æ€"+List.get(i1).getPcb().getStatus());
+			   // System.out.println("ä¼˜å…ˆçº§"+List.get(i1).getPcb().getPriority());
+			    
+			}
+			
+			//float min=this.List.get(i).getServiceTime();
+		}
+		System.out.println("==============================");
+		//return num;
+}
 public void sort(ObservableList<ResultModel> List) {
 	for(int i=0;i<List.size();i++)
 	{
 		 for(int j=0;j<=i;j++)
 		 {
-			 if(List.get(i).getPcb().getArriveTime()<=List.get(j).getPcb().getArriveTime())
+			 if(List.get(i).getPcb().getArriveTime()<List.get(j).getPcb().getArriveTime())
 			 {
 				 PCB temp=new PCB();
-				 //¸³Öµ¸øÖĞ¼äÖµ
+				 //èµ‹å€¼ç»™ä¸­é—´å€¼
 				 
 				 temp.setArriveTime(List.get(i).getPcb().getArriveTime());
 				 temp.setFinishTime(List.get(i).getPcb().getFinishTime());
@@ -184,7 +244,6 @@ public void sort(ObservableList<ResultModel> List) {
 					tResultModel.setServerTime(temp.getServiceTime());
 					tResultModel.setPriority(temp.getPriority());
 					tResultModel.setStatus(3);
-					tResultModel.setArriveTime(temp.getArriveTime());
 					tResultModel.setPid(temp.getPid());
 					tResultModel.setStartTime(temp.getStartTime());
 					tResultModel.setFinishTime(temp.getFinishTime());
@@ -197,15 +256,16 @@ public void sort(ObservableList<ResultModel> List) {
 }
 public void out(ObservableList<ResultModel> List)
 {
-	System.out.println("<<<<<<<<<<<<<<<ËùÓĞ½ø³ÌÇé¿ö>>>>>>>>>>>>>>>>>>>>");
+	
+	System.out.println("<<<<<<<<<<<<<<<æ‰€æœ‰è¿›ç¨‹æƒ…å†µ>>>>>>>>>>>>>>>>>>>>");
 	for(int i1=0;i1<List.size();i1++)
 	{
-		 System.out.println("Ãû×Ö"+List.get(i1).getPid()+" "+"ÓÅÏÈ¼¶"+List.get(i1).getPriority()+" "+"µ½´ïÊ±¼ä"+List.get(i1).getArriveTime()
-				 +" "+"¿ªÊ¼Ê±¼ä"+List.get(i1).getStartTime()
-				 +" "+"ĞèÒªÊ±¼ä"+List.get(i1).getNeedTime()
-				 +" "+"·şÎñÊ±¼ä"+List.get(i1).getServerTime()
-				 +" "+"Íê³ÉÊ±¼ä"+List.get(i1).getFinishTime()
-				 +" "+"×´Ì¬"+List.get(i1).getPcb().getStatus());
+		 System.out.println("åå­—"+List.get(i1).getPid()+" "+"ä¼˜å…ˆçº§"+List.get(i1).getPriority()+" "+"åˆ°è¾¾æ—¶é—´"+List.get(i1).getArriveTime()
+				 +" "+"å¼€å§‹æ—¶é—´"+List.get(i1).getStartTime()
+				 +" "+"éœ€è¦æ—¶é—´"+List.get(i1).getNeedTime()
+				 +" "+"æœåŠ¡æ—¶é—´"+List.get(i1).getServerTime()
+				 +" "+"å®Œæˆæ—¶é—´"+List.get(i1).getFinishTime()
+				 +" "+"çŠ¶æ€"+List.get(i1).getPcb().getStatus());
 	}
 	System.out.println("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");
 }

@@ -8,5 +8,6 @@ public class ViewHelp {
 	public final static String rrView = "RRView.fxml";
 	public final static String sjfView = "SJFView.fxml";
 	public final static String psaView = "PSAView.fxml";
-	public final static String DialogRView = "DialogRView.fxml";
+	public final static String mpsaView = "MPSAView.fxml";
+	public final static String fcfsView = "fcfsView.fxml";
 }

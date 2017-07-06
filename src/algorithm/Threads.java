@@ -2,19 +2,20 @@ package algorithm;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.ResultModel;
 
 public abstract class Threads extends Thread {
 protected int cpuid;
 protected boolean suspended;
 protected float nowtime;
-protected int processnum;//cpu上的进程数目 
+protected int processnum;//cpu涓婄殑杩涚▼鏁扮洰 
 public ObservableList<ResultModel> List;
 public Threads(int cpuid,ObservableList<ResultModel> List)
 {
 	this.List = FXCollections.observableArrayList();
 	this.List=List;
 	this.cpuid=cpuid;
-	this.suspended=true;//true为空闲，false为运行
+	this.suspended=true;//true涓虹┖闂诧紝false涓鸿繍琛�
 	this.nowtime=0;
 }
 

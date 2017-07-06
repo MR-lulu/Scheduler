@@ -9,13 +9,13 @@ import javafx.util.Callback;
 
 /**
  * ClassName: ScheduleThread 
- * @Description: TODO
+ * @Description: 算法调度线程（守护线程），用于单独运行调度算法
  * @author Mr_blue
  * @date 2017年7月5日
  */
 public class ScheduleThread {
 	private Service<Void> thread;
-	private Callback<Void, Void> callback;
+	private Callback<Void, Void> callback; //回调方法
 	
 	public ScheduleThread(Task<Void> task){
 		thread = new Service<Void>() {

@@ -20,6 +20,8 @@ public class ManagementController {
 	@FXML private Button rrButton;
 	@FXML private Button sjfButton;
 	@FXML private Button psaButton;
+	@FXML private Button mpsaButton;
+	@FXML private Button fcfsButton;
 	
 	@FXML private void initialize(){
 		loadPane(ViewHelp.rrView);
@@ -32,6 +34,12 @@ public class ManagementController {
 	}
 	@FXML public void psaPress(){
 		loadPane(ViewHelp.psaView);
+	}
+	@FXML public void mpsaPress(){
+		loadPane(ViewHelp.mpsaView);
+	}
+	@FXML public void fcfsPress(){
+		loadPane(ViewHelp.fcfsView);
 	}
 	
 	private void loadPane(String name){

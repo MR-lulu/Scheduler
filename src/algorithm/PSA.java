@@ -116,7 +116,7 @@ public class PSA extends Scheduler{
 				tPcb.setNeedTime(List.get(value).getPcb().getNeedTime()-1);
 				tPcb.setServiceTime(List.get(value).getPcb().getServiceTime()+1);
 				
-				tPcb.setPriority(List.get(value).getPcb().getPriority()+3);
+				tPcb.setPriority(List.get(value).getPcb().getPriority()+1);
 				tPcb.setStatus(1);
 				
 				tResultModel.setPid(tPcb.getPid());
@@ -156,7 +156,7 @@ public class PSA extends Scheduler{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} 
-				aging(List);
+				//aging(List);
 				
 				 //t1.setStatus(2);
 				 //this.List.set(value, t1);
@@ -252,12 +252,12 @@ public class PSA extends Scheduler{
 				tPcb.setPid(List.get(i1).getPcb().getPid());
 				tPcb.setNeedTime(List.get(i1).getPcb().getNeedTime());
 				tPcb.setServiceTime(List.get(i1).getPcb().getServiceTime());
-				if(List.get(i1).getPcb().getPriority()-3<=0)
+				if(List.get(i1).getPcb().getPriority()-1<=0)
 				{
 					tPcb.setPriority(0);
 				}
 				else {
-					tPcb.setPriority(List.get(i1).getPcb().getPriority()-3);
+					tPcb.setPriority(List.get(i1).getPcb().getPriority()-1);
 				}
 				
 				tPcb.setFinishTime(List.get(i1).getPcb().getFinishTime());

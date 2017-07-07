@@ -101,8 +101,9 @@ public class MPSA extends Scheduler{
 		nowtime++;
 		}
 		out(List);
-		System.out.println(this.end+" "+List.size());
 		
+		System.out.println(this.end+" "+List.size());
+		getResult();
 	}
 	public int findHigh(float nowtime,ObservableList<ResultModel> List,int cpuid)
 	{

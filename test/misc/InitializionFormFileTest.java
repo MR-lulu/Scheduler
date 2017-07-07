@@ -1,5 +1,6 @@
 package misc;
 
+import java.io.File;
 import java.util.LinkedList;
 
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class InitializionFormFileTest {
 	public void test(){
 		InitializationFormFile initializion = new InitializationFormFile();
 		@SuppressWarnings("static-access")
-		LinkedList<PCB> list = initializion.getLinkedListFormFile();
+		LinkedList<PCB> list = initializion.getLinkedListFormFile(new File("src\\misc\\data.txt"));
 		for(PCB pcb : list){
 			System.out.println("-------------------");
 			System.out.println(pcb.getArriveTime());

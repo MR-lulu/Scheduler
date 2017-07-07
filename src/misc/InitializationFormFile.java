@@ -17,11 +17,11 @@ public class InitializationFormFile {
 	private static int pid=1000;
 	private static int status=3;//0就绪，1运行，2完成
 
-	public static LinkedList<PCB> getLinkedListFormFile(){
+	public static LinkedList<PCB> getLinkedListFormFile(File file){
 		LinkedList<PCB> list = new LinkedList<PCB>();
 		
 		try {
-			Scanner scanner = new Scanner(new File("src\\misc\\data.txt"));
+			Scanner scanner = new Scanner(file);
 			scanner.nextLine();
 			while (scanner.hasNext()) {
 				PCB pcb = new PCB();

@@ -24,21 +24,27 @@ public class ManagementController {
 	@FXML private Button fcfsButton;
 	
 	@FXML private void initialize(){
+		//跳转至时间轮转调度页面
 		loadPane(ViewHelp.rrView);
 	}
 	@FXML public void rrPress(){
+		//跳转至时间轮转调度页面
 		loadPane(ViewHelp.rrView);
 	}
 	@FXML public void sjfPress(){
+		//跳转至短作业调度页面
 		loadPane(ViewHelp.sjfView);
 	}
 	@FXML public void psaPress(){
+		//跳转至动态优先级调度页面
 		loadPane(ViewHelp.psaView);
 	}
 	@FXML public void mpsaPress(){
+		//跳转多核动态优先级调度页面
 		loadPane(ViewHelp.mpsaView);
 	}
 	@FXML public void fcfsPress(){
+		//跳转至先来先服务调度页面
 		loadPane(ViewHelp.fcfsView);
 	}
 	

@@ -14,6 +14,8 @@ public class MPSA extends Scheduler{
 	private int cpumun;
 	private int end;
 	private ArrayList<MPSAcpu> cpuinfo=null;
+	private ArrayList<ArrayList<String>> msequence=new ArrayList<ArrayList<String>>();
+	
 	public MPSA(int cpumun)
 	{
 		//this.List =new LinkedList<PCB>();
@@ -23,7 +25,7 @@ public class MPSA extends Scheduler{
 		this.cpuinfo=new ArrayList<>();
 	}
 	
-	public void sort(ObservableList<ResultModel> List) {//到达时间排序
+	public void sort(ObservableList<ResultModel> List) {
 		for(int i=0;i<List.size();i++)
 		{
 			 for(int j=0;j<=i;j++)
@@ -62,7 +64,7 @@ public class MPSA extends Scheduler{
 		}
 		
 	}
-	public void  dynamicRun(ObservableList<ResultModel> List)//主进程用于调用排序和检测进程到达和算法结束
+	public void  dynamicRun(ObservableList<ResultModel> List)
 	{
 		int nowtime=0;
 		end=0;
@@ -100,8 +102,9 @@ public class MPSA extends Scheduler{
 		}
 		out(List);
 		System.out.println(this.end+" "+List.size());
+		
 	}
-	public int findHigh(float nowtime,ObservableList<ResultModel> List,int cpuid)//找到某cpu上当前优先级最高的进程
+	public int findHigh(float nowtime,ObservableList<ResultModel> List,int cpuid)
 	{
 		int value=-1;
 		float high=10000;
@@ -137,7 +140,7 @@ public class MPSA extends Scheduler{
 		
 		return value;
 	}
-	public synchronized void setready(float nowtime,ObservableList<ResultModel> List)//设置到达的序列为就绪
+	public synchronized void setready(float nowtime,ObservableList<ResultModel> List)
 	{
 		//System.out.println("===========有队列到达=============");
 		for(int i1=0;i1<List.size();i1++)
@@ -184,7 +187,7 @@ public class MPSA extends Scheduler{
 		}
 		System.out.println("==============================");
 	}
-	public synchronized void aging(ObservableList<ResultModel> List)//提高长时间未作业的进程的优先级
+	public synchronized void aging(ObservableList<ResultModel> List)
 	{
 		for(int i1=0;i1<List.size();i1++)
 		{
@@ -197,12 +200,12 @@ public class MPSA extends Scheduler{
 				tPcb.setPid(List.get(i1).getPcb().getPid());
 				tPcb.setNeedTime(List.get(i1).getPcb().getNeedTime());
 				tPcb.setServiceTime(List.get(i1).getPcb().getServiceTime());
-				if(List.get(i1).getPcb().getPriority()==0)
+				if(List.get(i1).getPcb().getPriority()-3<=0)
 				{
 					tPcb.setPriority(0);
 				}
 				else {
-					tPcb.setPriority(List.get(i1).getPcb().getPriority()-1);
+					tPcb.setPriority(List.get(i1).getPcb().getPriority()-3);
 				}
 				
 				tPcb.setFinishTime(List.get(i1).getPcb().getFinishTime());
@@ -232,7 +235,7 @@ public class MPSA extends Scheduler{
 			//float min=this.List.get(i).getServiceTime();
 		}
 	}
-	public synchronized int findCpu(float nowtime) {//找到当前就绪队列数目最小的cpu
+	public synchronized int findCpu(float nowtime) {
 		int value=0;
 		int max=100;
 		//System.out.println("cpu总数目"+cpumun);
@@ -274,10 +277,11 @@ public class MPSA extends Scheduler{
 		System.out.println("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");
 	}
 
-	public class MPSAcpu extends Threads//cpu线程类
+	public class MPSAcpu extends Threads
 	{
 		public MPSAcpu(int cpuId,ObservableList<ResultModel> List) {
 			super(cpuId, List);
+			
 			// TODO Auto-generated constructor stub
 		}
 
@@ -288,6 +292,7 @@ public class MPSA extends Scheduler{
 	        	
 	        	try {
 	                 Thread.sleep(1000);
+	                 
 	                 synchronized(this) {
 	                     while(suspended) {
 	                        wait();
@@ -299,12 +304,17 @@ public class MPSA extends Scheduler{
 	             }
 	        	//setready(nowtime, List);
 	        	//int ret=cpuwork(nowtime, List);
+	        	 setreadyInCpu(cpuid, nowtime, List);
 	        	 
-	        	setreadyInCpu(cpuid, nowtime, List);
 	        	 System.out.println("cpu " +  getCpuId() + " 在执行");
 	        	 int value=MPSA.this.findHigh(nowtime,List,this.cpuid);
+	        	 if(value>=0)
+	        	 {
+	        		 cpusequence.add(String.valueOf(List.get(value).getPid()));
+	        	 }
 	        	 System.out.println("cpu " +  getCpuId() + " 执行进程"+value);
 	        	 int v1=work(value, cpuid, nowtime, List);
+	        	 
 	        	 if(v1==-1)
 	        	 {
 	        		 setSuspended(true);
@@ -319,7 +329,7 @@ public class MPSA extends Scheduler{
 	        }
 	    }
 	}
-public synchronized void setreadyInCpu(int cpuid,float nowtime,ObservableList<ResultModel> List)//设置运行状态未结束的进程为就绪状态（用于动态显示）
+public synchronized void setreadyInCpu(int cpuid,float nowtime,ObservableList<ResultModel> List)
 {
 	
 	for(int i1=0;i1<List.size();i1++)
@@ -357,8 +367,9 @@ public synchronized void setreadyInCpu(int cpuid,float nowtime,ObservableList<Re
 		//float min=this.List.get(i).getServiceTime();
 	}
 }
-public synchronized int work(int value,int cpuid,float nowtime,ObservableList<ResultModel> List) //设置需要运行的进程为运行状态（用于动态显示）、计算相关信息、并检测其是否完成{
+public synchronized int work(int value,int cpuid,float nowtime,ObservableList<ResultModel> List) {
 	int a=0;
+	
 	if(value>=0)
 	 {
 	 ResultModel tResultModel=new ResultModel();
@@ -427,7 +438,18 @@ public synchronized int work(int value,int cpuid,float nowtime,ObservableList<Re
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	public void getResult() {
+		for(int i=0;i<cpuinfo.size();i++)
+		{
+			this.msequence.add(cpuinfo.get(i).cpusequence);
+		}
+		
+	}
+	public ArrayList<ArrayList<String>> getArrayList() {
+		
+		return this.msequence;
+	}
+
 	public void setCpumun(int cpumun) {
 		this.cpumun = cpumun;
 	}

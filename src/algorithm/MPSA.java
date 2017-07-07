@@ -23,7 +23,7 @@ public class MPSA extends Scheduler{
 		this.cpuinfo=new ArrayList<>();
 	}
 	
-	public void sort(ObservableList<ResultModel> List) {
+	public void sort(ObservableList<ResultModel> List) {//到达时间排序
 		for(int i=0;i<List.size();i++)
 		{
 			 for(int j=0;j<=i;j++)
@@ -62,7 +62,7 @@ public class MPSA extends Scheduler{
 		}
 		
 	}
-	public void  dynamicRun(ObservableList<ResultModel> List)
+	public void  dynamicRun(ObservableList<ResultModel> List)//主进程用于调用排序和检测进程到达和算法结束
 	{
 		int nowtime=0;
 		end=0;
@@ -101,7 +101,7 @@ public class MPSA extends Scheduler{
 		out(List);
 		System.out.println(this.end+" "+List.size());
 	}
-	public int findHigh(float nowtime,ObservableList<ResultModel> List,int cpuid)
+	public int findHigh(float nowtime,ObservableList<ResultModel> List,int cpuid)//找到某cpu上当前优先级最高的进程
 	{
 		int value=-1;
 		float high=10000;
@@ -137,7 +137,7 @@ public class MPSA extends Scheduler{
 		
 		return value;
 	}
-	public synchronized void setready(float nowtime,ObservableList<ResultModel> List)
+	public synchronized void setready(float nowtime,ObservableList<ResultModel> List)//设置到达的序列为就绪
 	{
 		//System.out.println("===========有队列到达=============");
 		for(int i1=0;i1<List.size();i1++)
@@ -184,7 +184,7 @@ public class MPSA extends Scheduler{
 		}
 		System.out.println("==============================");
 	}
-	public synchronized void aging(ObservableList<ResultModel> List)
+	public synchronized void aging(ObservableList<ResultModel> List)//提高长时间未作业的进程的优先级
 	{
 		for(int i1=0;i1<List.size();i1++)
 		{
@@ -232,7 +232,7 @@ public class MPSA extends Scheduler{
 			//float min=this.List.get(i).getServiceTime();
 		}
 	}
-	public synchronized int findCpu(float nowtime) {
+	public synchronized int findCpu(float nowtime) {//找到当前就绪队列数目最小的cpu
 		int value=0;
 		int max=100;
 		//System.out.println("cpu总数目"+cpumun);
@@ -274,7 +274,7 @@ public class MPSA extends Scheduler{
 		System.out.println("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");
 	}
 
-	public class MPSAcpu extends Threads
+	public class MPSAcpu extends Threads//cpu线程类
 	{
 		public MPSAcpu(int cpuId,ObservableList<ResultModel> List) {
 			super(cpuId, List);
@@ -319,7 +319,7 @@ public class MPSA extends Scheduler{
 	        }
 	    }
 	}
-public synchronized void setreadyInCpu(int cpuid,float nowtime,ObservableList<ResultModel> List)
+public synchronized void setreadyInCpu(int cpuid,float nowtime,ObservableList<ResultModel> List)//设置运行状态未结束的进程为就绪状态（用于动态显示）
 {
 	
 	for(int i1=0;i1<List.size();i1++)
@@ -357,7 +357,7 @@ public synchronized void setreadyInCpu(int cpuid,float nowtime,ObservableList<Re
 		//float min=this.List.get(i).getServiceTime();
 	}
 }
-public synchronized int work(int value,int cpuid,float nowtime,ObservableList<ResultModel> List) {
+public synchronized int work(int value,int cpuid,float nowtime,ObservableList<ResultModel> List) //设置需要运行的进程为运行状态（用于动态显示）、计算相关信息、并检测其是否完成{
 	int a=0;
 	if(value>=0)
 	 {

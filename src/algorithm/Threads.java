@@ -8,15 +8,17 @@ public abstract class Threads extends Thread {
 protected int cpuid;
 protected boolean suspended;
 protected float nowtime;
-protected int processnum;//cpu涓婄殑杩涚▼鏁扮洰 
+protected int processnum;//cpu�ϵĽ�����Ŀ 
 public ObservableList<ResultModel> List;
+protected ArrayList<String> cpusequence=new ArrayList<String>();
 public Threads(int cpuid,ObservableList<ResultModel> List)
 {
 	this.List = FXCollections.observableArrayList();
 	this.List=List;
 	this.cpuid=cpuid;
-	this.suspended=true;//true涓虹┖闂诧紝false涓鸿繍琛�
+	this.suspended=true;//trueΪ���У�falseΪ����
 	this.nowtime=0;
+	this.cpusequence=new ArrayList<String>();
 }
 
 public void getProcess(ObservableList<ResultModel> List){}
@@ -37,6 +39,14 @@ public synchronized void resumecpu(float nowtime2){
     suspended = false;
     this.nowtime=nowtime2;
     notify();
+}
+
+public ArrayList<String> getCpusequence() {
+	return cpusequence;
+}
+
+public void setCpusequence(ArrayList<String> cpusequence) {
+	this.cpusequence = cpusequence;
 }
 
 

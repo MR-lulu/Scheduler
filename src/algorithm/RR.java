@@ -128,6 +128,16 @@ public void dynamicRun(ObservableList<ResultModel> List)
 			}
 			
 		}
+		if(aLinkedList.size()==0)
+		{ try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		nowtime++;
+			
+		}
 	}
 }
 public int setready(float nowtime,ObservableList<ResultModel> List)

@@ -43,9 +43,9 @@ public void dynamicRun(ObservableList<ResultModel> List)
 			
 			for(int i1=0;i1<aLinkedList.size();i1++)
 			{
-				System.out.println("队列"+aLinkedList.get(i1));
+				System.out.println("闃熷垪"+aLinkedList.get(i1));
 			}
-			System.out.println("当前就绪队列数目"+num+"循环位数"+i+"当前时间"+nowtime+"当前运行");
+			System.out.println("褰撳墠灏辩华闃熷垪鏁扮洰"+num+"寰幆浣嶆暟"+i+"褰撳墠鏃堕棿"+nowtime+"褰撳墠杩愯");
 			boolean v=true;
 			
 			for(int i2=0;i2<3&&v;i2++)
@@ -53,15 +53,16 @@ public void dynamicRun(ObservableList<ResultModel> List)
 				
 				setready(nowtime, List);
 				value=(int) aLinkedList.get(0);
-			if(List.get(value).getStartTime()==0&&List.get(value).getStartTime()!=List.get(value).getPcb().getArriveTime())//如果是第一次运行设置其运行时间
+			if(List.get(value).getStartTime()==0&&List.get(value).getStartTime()!=List.get(value).getPcb().getArriveTime())//濡傛灉鏄涓�娆¤繍琛岃缃叾杩愯鏃堕棿
 			{
-				System.out.println("第"+List.get(value).getPid()+"个开始----------");
+				System.out.println("绗�"+List.get(value).getPid()+"涓紑濮�----------");
 				tPcb.setStartTime(nowtime);
 			}
 			else {
 				tPcb.setStartTime(List.get(value).getStartTime());
 				tResultModel.setStartTime(List.get(value).getStartTime());
-			}			
+			}
+			sequence.add(String.valueOf(List.get(value).getPid()));
 			tPcb.setArriveTime(List.get(value).getPcb().getArriveTime());
 			tPcb.setPid(List.get(value).getPid());
 			
@@ -78,7 +79,7 @@ public void dynamicRun(ObservableList<ResultModel> List)
 			tResultModel.setPriority(tPcb.getPriority());
 			tResultModel.setStatus(1);
 			tResultModel.setArriveTime(tPcb.getArriveTime());
-			if(tPcb.getNeedTime()==0)//如果任务结束设置其结束时间和设置状态为结束
+			if(tPcb.getNeedTime()==0)//濡傛灉浠诲姟缁撴潫璁剧疆鍏剁粨鏉熸椂闂村拰璁剧疆鐘舵�佷负缁撴潫
 			{
 				tPcb.setFinishTime(nowtime+1);
 				tResultModel.setFinishTime(nowtime+1);
@@ -86,9 +87,9 @@ public void dynamicRun(ObservableList<ResultModel> List)
 				tResultModel.setStatus(2);
 				tResultModel.setTurnaroundTime(tPcb.getFinishTime()-tPcb.getArriveTime());
 				tResultModel.setRturnaroundTime((tPcb.getFinishTime()-tPcb.getArriveTime())/tPcb.getServiceTime());
-				//System.out.println("第"+value+"个结束");
+				//System.out.println("绗�"+value+"涓粨鏉�");
 				aLinkedList.remove(0);end--;
-				//System.out.println("队列0是  "+aLinkedList.get(0));
+				//System.out.println("闃熷垪0鏄�  "+aLinkedList.get(0));
 				//break;
 				v=false;
 			}
@@ -103,26 +104,26 @@ public void dynamicRun(ObservableList<ResultModel> List)
 					e.printStackTrace();
 				} 
 			 System.out.println(0);
-			 System.out.println("名字"+List.get(value).getPid()+" "+"优先级"+List.get(value).getPcb().getPriority()+" "+"到达时间"+List.get(value).getPcb().getArriveTime()
-					 +" "+"开始时间"+List.get(value).getStartTime()
-					 +" "+"需要时间"+List.get(value).getNeedTime()
-					 +" "+"服务时间"+List.get(value).getServerTime()
-					 +" "+"完成时间"+List.get(value).getFinishTime()
-					 +" "+"状态"+List.get(value).getPcb().getStatus());
-		    // System.out.println("优先级"+List.get(i).getPcb().getPriority());
-		     //System.out.println("到达时间"+List.get(i).getPcb().getArriveTime());
-		     //System.out.println("开始时间"+List.get(i).getStartTime());
-		     //System.out.println("需要时间"+List.get(i).getPcb().getNeedTime());
-		     //System.out.println("服务时间"+List.get(i).getPcb().getServiceTime());
-		     //System.out.println("完成时间"+List.get(i).getFinishTime());
-		     //System.out.println("状态"+List.get(i).getPcb().getStatus());
+			 System.out.println("鍚嶅瓧"+List.get(value).getPid()+" "+"浼樺厛绾�"+List.get(value).getPcb().getPriority()+" "+"鍒拌揪鏃堕棿"+List.get(value).getPcb().getArriveTime()
+					 +" "+"寮�濮嬫椂闂�"+List.get(value).getStartTime()
+					 +" "+"闇�瑕佹椂闂�"+List.get(value).getNeedTime()
+					 +" "+"鏈嶅姟鏃堕棿"+List.get(value).getServerTime()
+					 +" "+"瀹屾垚鏃堕棿"+List.get(value).getFinishTime()
+					 +" "+"鐘舵��"+List.get(value).getPcb().getStatus());
+		    // System.out.println("浼樺厛绾�"+List.get(i).getPcb().getPriority());
+		     //System.out.println("鍒拌揪鏃堕棿"+List.get(i).getPcb().getArriveTime());
+		     //System.out.println("寮�濮嬫椂闂�"+List.get(i).getStartTime());
+		     //System.out.println("闇�瑕佹椂闂�"+List.get(i).getPcb().getNeedTime());
+		     //System.out.println("鏈嶅姟鏃堕棿"+List.get(i).getPcb().getServiceTime());
+		     //System.out.println("瀹屾垚鏃堕棿"+List.get(i).getFinishTime());
+		     //System.out.println("鐘舵��"+List.get(i).getPcb().getStatus());
 		
 	
 			}
-			sequence.add(String.valueOf(List.get(value).getPid()));
+			
 			if(aLinkedList.size()>=1&&v)
 			{
-				System.out.println("置换"+aLinkedList.size());
+				System.out.println("缃崲"+aLinkedList.size());
 			aLinkedList.addLast(aLinkedList.getFirst());
 			aLinkedList.removeFirst();
 			}
@@ -142,14 +143,14 @@ public void dynamicRun(ObservableList<ResultModel> List)
 }
 public int setready(float nowtime,ObservableList<ResultModel> List)
 {
-	//System.out.println("===========当前就绪队列=============");
+	//System.out.println("===========褰撳墠灏辩华闃熷垪=============");
 	int num=0;
 	for(int i1=0;i1<List.size();i1++)
 	{
 		PCB tPcb=new PCB();
 		ResultModel tResultModel=new ResultModel();
-		//System.out.println("比较1   "+List.get(i1).getPcb().getArriveTime()+" "+nowtime);
-		//System.out.println("比较2   "+List.get(i1).getPcb().getStatus()+" "+3);
+		//System.out.println("姣旇緝1   "+List.get(i1).getPcb().getArriveTime()+" "+nowtime);
+		//System.out.println("姣旇緝2   "+List.get(i1).getPcb().getStatus()+" "+3);
 		if(List.get(i1).getPcb().getArriveTime()<=nowtime&&(List.get(i1).getPcb().getStatus()==3))
 		{
 			tPcb.setStartTime(List.get(i1).getPcb().getStartTime());
@@ -173,9 +174,9 @@ public int setready(float nowtime,ObservableList<ResultModel> List)
 			List.set(i1, tResultModel);
 			aLinkedList.add(i1);
 			num++;
-			//System.out.println("名字"+List.get(i1).getPid()+" "+i1);
-			//System.out.println("状态"+List.get(i1).getPcb().getStatus());
-		   // System.out.println("优先级"+List.get(i1).getPcb().getPriority());
+			//System.out.println("鍚嶅瓧"+List.get(i1).getPid()+" "+i1);
+			//System.out.println("鐘舵��"+List.get(i1).getPcb().getStatus());
+		   // System.out.println("浼樺厛绾�"+List.get(i1).getPcb().getPriority());
 		    
 		}
 		
@@ -185,14 +186,14 @@ public int setready(float nowtime,ObservableList<ResultModel> List)
 	return num;
 }
 public void retready(float nowtime,ObservableList<ResultModel> List) {
-	//System.out.println("===========当前就绪队列=============");
+	//System.out.println("===========褰撳墠灏辩华闃熷垪=============");
 		//int num=0;
 		for(int i1=0;i1<List.size();i1++)
 		{
 			PCB tPcb=new PCB();
 			ResultModel tResultModel=new ResultModel();
-			//System.out.println("比较1   "+List.get(i1).getPcb().getArriveTime()+" "+nowtime);
-			//System.out.println("比较2   "+List.get(i1).getPcb().getStatus()+" "+3);
+			//System.out.println("姣旇緝1   "+List.get(i1).getPcb().getArriveTime()+" "+nowtime);
+			//System.out.println("姣旇緝2   "+List.get(i1).getPcb().getStatus()+" "+3);
 			if(List.get(i1).getPcb().getArriveTime()<=nowtime&&(List.get(i1).getPcb().getStatus()==1))
 			{
 				tPcb.setStartTime(List.get(i1).getPcb().getStartTime());
@@ -216,9 +217,9 @@ public void retready(float nowtime,ObservableList<ResultModel> List) {
 				List.set(i1, tResultModel);
 				//aLinkedList.add(i1);
 				//num++;
-				//System.out.println("名字"+List.get(i1).getPid()+" "+i1);
-				//System.out.println("状态"+List.get(i1).getPcb().getStatus());
-			   // System.out.println("优先级"+List.get(i1).getPcb().getPriority());
+				//System.out.println("鍚嶅瓧"+List.get(i1).getPid()+" "+i1);
+				//System.out.println("鐘舵��"+List.get(i1).getPcb().getStatus());
+			   // System.out.println("浼樺厛绾�"+List.get(i1).getPcb().getPriority());
 			    
 			}
 			
@@ -235,7 +236,7 @@ public void sort(ObservableList<ResultModel> List) {
 			 if(List.get(i).getPcb().getArriveTime()<List.get(j).getPcb().getArriveTime())
 			 {
 				 PCB temp=new PCB();
-				 //赋值给中间值
+				 //璧嬪�肩粰涓棿鍊�
 				 
 				 temp.setArriveTime(List.get(i).getPcb().getArriveTime());
 				 temp.setFinishTime(List.get(i).getPcb().getFinishTime());
@@ -267,15 +268,15 @@ public void sort(ObservableList<ResultModel> List) {
 public void out(ObservableList<ResultModel> List)
 {
 	
-	System.out.println("<<<<<<<<<<<<<<<所有进程情况>>>>>>>>>>>>>>>>>>>>");
+	System.out.println("<<<<<<<<<<<<<<<鎵�鏈夎繘绋嬫儏鍐�>>>>>>>>>>>>>>>>>>>>");
 	for(int i1=0;i1<List.size();i1++)
 	{
-		 System.out.println("名字"+List.get(i1).getPid()+" "+"优先级"+List.get(i1).getPriority()+" "+"到达时间"+List.get(i1).getArriveTime()
-				 +" "+"开始时间"+List.get(i1).getStartTime()
-				 +" "+"需要时间"+List.get(i1).getNeedTime()
-				 +" "+"服务时间"+List.get(i1).getServerTime()
-				 +" "+"完成时间"+List.get(i1).getFinishTime()
-				 +" "+"状态"+List.get(i1).getPcb().getStatus());
+		 System.out.println("鍚嶅瓧"+List.get(i1).getPid()+" "+"浼樺厛绾�"+List.get(i1).getPriority()+" "+"鍒拌揪鏃堕棿"+List.get(i1).getArriveTime()
+				 +" "+"寮�濮嬫椂闂�"+List.get(i1).getStartTime()
+				 +" "+"闇�瑕佹椂闂�"+List.get(i1).getNeedTime()
+				 +" "+"鏈嶅姟鏃堕棿"+List.get(i1).getServerTime()
+				 +" "+"瀹屾垚鏃堕棿"+List.get(i1).getFinishTime()
+				 +" "+"鐘舵��"+List.get(i1).getPcb().getStatus());
 	}
 	System.out.println("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>");
 }

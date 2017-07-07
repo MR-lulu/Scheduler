@@ -196,8 +196,8 @@ public class Controller {
 		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK,ButtonType.CLOSE);
 		dialog.getDialogPane().setPrefSize(1000, 800);
 
-		final NumberAxis xAxis = new NumberAxis();
-		final CategoryAxis yAxis = new CategoryAxis();
+		final NumberAxis xAxis = new NumberAxis();//X÷·
+		final CategoryAxis yAxis = new CategoryAxis();//Y÷·
 		final LineChart<Number,String> lineChart = 
 				new LineChart<Number,String>(xAxis,yAxis);
 

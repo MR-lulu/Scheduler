@@ -19,27 +19,27 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="rrButton" mnemonicParsing="false" onAction="#rrPress" prefHeight="65.0" prefWidth="140.0" text="时间片轮转算法">
+            <Button fx:id="rrButton" mnemonicParsing="false" onAction="#rrPress" prefHeight="65.0" prefWidth="145.0" text="时间片轮转(单核)">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="sjfButton" mnemonicParsing="false" onAction="#sjfPress" prefHeight="65.0" prefWidth="145.0" text="短作业优先(单核)" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="sjfButton" mnemonicParsing="false" onAction="#sjfPress" prefHeight="65.0" prefWidth="140.0" text="短作业优先算法" GridPane.rowIndex="1">
+            <Button fx:id="psaButton" mnemonicParsing="false" onAction="#psaPress" prefHeight="65.0" prefWidth="145.0" text="动态优先级(单核)" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="psaButton" mnemonicParsing="false" onAction="#psaPress" prefHeight="65.0" prefWidth="140.0" text="动态优先级算法" GridPane.rowIndex="2">
+            <Button fx:id="fcfsButton" layoutX="20.0" layoutY="228.0" mnemonicParsing="false" onAction="#fcfsPress" prefHeight="65.0" prefWidth="145.0" text="先来先服务(单核)" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="fcfsButton" layoutX="20.0" layoutY="228.0" mnemonicParsing="false" onAction="#fcfsPress" prefHeight="65.0" prefWidth="140.0" text="先来先服务算法" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="mpsaButton" layoutX="20.0" layoutY="258.0" mnemonicParsing="false" onAction="#mpsaPress" prefHeight="65.0" prefWidth="140.0" text="多核调度算法" GridPane.rowIndex="4">
+            <Button fx:id="mpsaButton" layoutX="20.0" layoutY="258.0" mnemonicParsing="false" onAction="#mpsaPress" prefHeight="65.0" prefWidth="145.0" text="动态优先级(多核)" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>

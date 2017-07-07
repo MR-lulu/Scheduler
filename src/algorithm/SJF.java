@@ -1,5 +1,8 @@
 package algorithm;
 
+/**
+ * ·ÅÆú²»ÓÃ
+ */
 
 import java.util.ArrayList;
 import java.util.LinkedList;

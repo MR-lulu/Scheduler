@@ -45,7 +45,7 @@ public class CreateDialog {
 		TextField arriveTime = new TextField();
 		TextField needTime = new TextField();
 		TextField priority = new TextField("0");
-		Label pidLabel = new Label("1000");
+		Label pidLabel = new Label(pid+"");
 		priority.setDisable(isDisable); //禁止用户输入优先级
 		
 		grid.add(new Label("pid:"), 0, 0);
@@ -69,8 +69,8 @@ public class CreateDialog {
 					arriveTime.setText("");
 					needTime.setText("");
 					priority.setText("0");
-					pidLabel.setText(String.valueOf(pid));
 					pid++;
+					pidLabel.setText(String.valueOf(pid));
 					return null; //当返回值为null时showAndWait()不会返回结果
 				} else {
 					SimpleErrorAlert alert = new SimpleErrorAlert("错误", "输入格式错误", "请重新输入");

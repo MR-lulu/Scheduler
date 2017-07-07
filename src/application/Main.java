@@ -21,12 +21,12 @@ public class Main extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		this.primaryStage = primaryStage;
+		this.primaryStage = primaryStage; //程序主窗口
 		initRootlayout();
-		primaryStage.setHeight(450);
-		primaryStage.setWidth(870);
+		primaryStage.setHeight(450);   //设置窗口高度
+		primaryStage.setWidth(870);		//设置窗口宽度
 		primaryStage.setTitle("处理机调度算法");
-		primaryStage.show();
+		primaryStage.show();   //显示窗口
 	}
 	
 	//初始化加载页面

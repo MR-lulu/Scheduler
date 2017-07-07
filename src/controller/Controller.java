@@ -53,6 +53,7 @@ import model.ResultModel;
  * @date 2017年6月28日
  */
 public class Controller {
+	//表格中的每一列
 	@FXML protected TableColumn<ResultModel, Integer> pidColumn;
 	@FXML protected TableColumn<ResultModel, Float> startColumn;
 	@FXML protected TableColumn<ResultModel, String> statusColumn;
@@ -74,7 +75,7 @@ public class Controller {
 	private static int pid = 1000;
 
 	protected void setUpTableView(){
-		//设置tableView表格内所填值的元素
+		//设置tableView表格内所填值的元素，使用java8的lambda表达式填入参数
 		pidColumn.setCellValueFactory(CellData->CellData.getValue().pidProperty().asObject());
 		arriveColumn.setCellValueFactory(CellData->CellData.getValue().arriverTimeProperty().asObject());
 		//statusColumn.setCellValueFactory(CellData->CellData.getValue().statusProperty().asObject());
@@ -95,6 +96,7 @@ public class Controller {
 		turnColumn.setCellFactory(tableCell);
 		rturnColumn.setCellFactory(tableCell);		
 	}
+	//初始化进程队列
 	protected void initList(LinkedList<PCB> linkedList) {
 		for(PCB pcb:linkedList){
 			scheduler.addProcess(pcb);

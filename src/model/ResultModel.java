@@ -36,7 +36,7 @@ public class ResultModel {
 		
 		this.pcb = pcb;
 		this.pid = new SimpleIntegerProperty(pid);
-		this.cpuid = new SimpleIntegerProperty();
+		this.cpuid = new SimpleIntegerProperty(-1);
 		this.status = new SimpleIntegerProperty(status);
 		this.status1 = new SimpleStringProperty(agrs[status]);
 		this.priority = new SimpleIntegerProperty(priority);
@@ -50,7 +50,7 @@ public class ResultModel {
 	}
 	public ResultModel(){
 		this.pid = new SimpleIntegerProperty();
-		this.cpuid = new SimpleIntegerProperty();
+		this.cpuid = new SimpleIntegerProperty(-1);
 		this.status = new SimpleIntegerProperty();
 		this.status1 = new SimpleStringProperty();
 		this.priority = new SimpleIntegerProperty();

@@ -21,9 +21,9 @@ public class ScheduleThread {
 		thread = new Service<Void>() {
 			@Override
 			protected Task<Void> createTask() {
-				return task;
+				return task;       //创建线程任务
 			}
-		};
+		};    //调度线程完成之后显示提示框
 		thread.setOnSucceeded(value->{
 			SimpleSuccessAlert alert = new SimpleSuccessAlert("完成", "调度完成","是否查看调度过程");
 			Optional<ButtonType> optional = alert.showAndWait();

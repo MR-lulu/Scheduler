@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
@@ -32,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import misc.CreateDialog;
 import misc.InitializationFormFile;
@@ -61,13 +63,13 @@ public class Controller {
 	@FXML protected Label num;
 
 	@FXML protected TableView<ResultModel> tableView;
-	protected ObservableList<ResultModel> resultData = FXCollections.observableArrayList();
-	@FXML protected Button beginButton;
-	@FXML protected Button processButton;
-	@FXML protected Button initButton;
-	@FXML protected Button initRButton;
-	@FXML protected Button initIButton;
-	protected Scheduler scheduler;
+	protected ObservableList<ResultModel> resultData = FXCollections.observableArrayList();//表格中的值
+	@FXML protected Button beginButton;  //开始按钮
+	@FXML protected Button processButton; //调度过程按钮
+	@FXML protected Button initButton; // 文件初始化按钮
+	@FXML protected Button initRButton; //随机初始化按钮
+	@FXML protected Button initIButton; //输入初始化按钮
+	protected Scheduler scheduler;  
 	protected boolean f = false;
 	private static int pid = 1000;
 
@@ -83,7 +85,8 @@ public class Controller {
 		rturnColumn.setCellValueFactory(CellData->CellData.getValue().rturnaroundTimeProperty().asObject());
 
 		Cell cell = new Cell();
-		CellFloat tableCell = new CellFloat(); 
+		CellFloat tableCell = new CellFloat();
+		//设置表格样式
 		pidColumn.setCellFactory(cell);
 		arriveColumn.setCellFactory(tableCell);
 		startColumn.setCellFactory(tableCell);
@@ -107,7 +110,7 @@ public class Controller {
 			num.setText(String.valueOf(resultData.size())); //设置进程数量的Label
 			f = false;
 			/**
-			 * 普通Java线程
+			 * 普通Java线程(守护线程)
 			 */
 			/*new Thread(()->{
 				scheduler.dynamicRun(resultData);
@@ -136,12 +139,20 @@ public class Controller {
 	}
 	@FXML 
 	public void initPress(){
-		//文件初始化
-		LinkedList<PCB> linkedList = InitializationFormFile.getLinkedListFormFile();
-		initList(linkedList);
-		SimpleSuccessAlert alert = new SimpleSuccessAlert("提示", "初始化完成", "");
-		alert.show();
-		f = true;
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("选择初始化文件,格式为TXT");
+		File file = fileChooser.showOpenDialog(null);
+		if (file!=null) {
+			//文件初始化
+			LinkedList<PCB> linkedList = InitializationFormFile.getLinkedListFormFile(file);
+			initList(linkedList);
+			SimpleSuccessAlert alert = new SimpleSuccessAlert("提示", "初始化完成", "");
+			alert.show();
+			f = true;
+		} else {
+			f = false;
+		}
+		
 	}
 	@FXML 
 	public void initRPress(){
@@ -216,6 +227,9 @@ public class Controller {
 		dialog.showAndWait();
 	}
 }
+/*
+ * Cell和CellFloat和CellString都是用于改变表格的显示样式
+ */
 class Cell implements Callback<TableColumn<ResultModel,Integer>, TableCell<ResultModel,Integer>>{
 	@Override
 	public TableCell<ResultModel, Integer> call(TableColumn<ResultModel, Integer> param) {
@@ -231,7 +245,7 @@ class Cell implements Callback<TableColumn<ResultModel,Integer>, TableCell<Resul
 				} else {
 					//setTextAlignment(TextAlignment.RIGHT);
 					setText(String.valueOf(item));
-					setAlignment(Pos.CENTER);
+					setAlignment(Pos.CENTER); //字体居住
 				}
 			}
 
@@ -253,7 +267,7 @@ class CellFloat implements Callback<TableColumn<ResultModel,Float>, TableCell<Re
 				} else {
 					//setTextAlignment(TextAlignment.RIGHT);
 					setText(String.valueOf(item));
-					setAlignment(Pos.CENTER);
+					setAlignment(Pos.CENTER); //字体居住
 				}
 			}
 
@@ -272,7 +286,8 @@ class CellString implements Callback<TableColumn<ResultModel,String>, TableCell<
 				if (empty) {
 					setText(null);
 					setGraphic(null);
-				} else {
+				} else { 
+					//不同状态表格颜色不同
 					if (item.equals("等待")) {
 						this.getTableRow().setStyle("-fx-background-color: red");
 					} else if (item.equals("完成")) {

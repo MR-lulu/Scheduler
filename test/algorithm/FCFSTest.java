@@ -2,6 +2,7 @@ package algorithm;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.LinkedList;
 
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class FCFSTest {
 		boolean retVal;
 		Factory factory = new FactoryFCFS();
 		Scheduler scheduler = factory.cteate();
-		LinkedList<PCB> linkedList = InitializationFormFile.getLinkedListFormFile();
+		LinkedList<PCB> linkedList = InitializationFormFile.getLinkedListFormFile(new File("src\\misc\\data.txt"));
 		ObservableList<ResultModel> resultData = FXCollections.observableArrayList();
 		for(PCB pcb:linkedList){
 			resultData.add(new ResultModel(pcb,pcb.getPid(), pcb.getState(), pcb.getPriority(), 

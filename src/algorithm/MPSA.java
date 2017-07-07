@@ -197,12 +197,12 @@ public class MPSA extends Scheduler{
 				tPcb.setPid(List.get(i1).getPcb().getPid());
 				tPcb.setNeedTime(List.get(i1).getPcb().getNeedTime());
 				tPcb.setServiceTime(List.get(i1).getPcb().getServiceTime());
-				if(List.get(i1).getPcb().getPriority()-3<=0)
+				if(List.get(i1).getPcb().getPriority()==0)
 				{
 					tPcb.setPriority(0);
 				}
 				else {
-					tPcb.setPriority(List.get(i1).getPcb().getPriority()-3);
+					tPcb.setPriority(List.get(i1).getPcb().getPriority()-1);
 				}
 				
 				tPcb.setFinishTime(List.get(i1).getPcb().getFinishTime());
@@ -426,5 +426,9 @@ public synchronized int work(int value,int cpuid,float nowtime,ObservableList<Re
 	public ArrayList<ResultModel> runProcess() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public void setCpumun(int cpumun) {
+		this.cpumun = cpumun;
 	}
 }

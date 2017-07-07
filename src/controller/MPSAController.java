@@ -17,11 +17,14 @@ import model.ResultModel;
  */
 public class MPSAController extends Controller{
 	@FXML private TableColumn<ResultModel, Integer> cpuColumn;
+	@FXML private TableColumn<ResultModel, Integer> priorityColumn;
 	
 	@FXML private void initialize() {
 		setUpTableView();
 		cpuColumn.setCellValueFactory(cellData->cellData.getValue().cpuidProperty().asObject());
 		cpuColumn.setCellFactory(new Cell());
+		priorityColumn.setCellValueFactory(cellData->cellData.getValue().priorityProperty().asObject());
+		priorityColumn.setCellFactory(new Cell());
 		scheduler = new FactoryMPSA().cteate();
 	}
 

@@ -9,6 +9,6 @@ public class FactoryMPSA implements Factory{
 	@Override
 	public Scheduler cteate() {
 		// TODO Auto-generated method stub
-		return new MPSA(2);
+		return new MPSA(4);
 	}
 }

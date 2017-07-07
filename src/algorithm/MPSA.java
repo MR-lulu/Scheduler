@@ -285,7 +285,7 @@ public class MPSA extends Scheduler{
 	        super.run();
 	        while(true)
 	        {
-	        	setreadyInCpu(cpuid, nowtime, List);
+	        	
 	        	try {
 	                 Thread.sleep(1000);
 	                 synchronized(this) {
@@ -300,7 +300,7 @@ public class MPSA extends Scheduler{
 	        	//setready(nowtime, List);
 	        	//int ret=cpuwork(nowtime, List);
 	        	 
-	        	 
+	        	setreadyInCpu(cpuid, nowtime, List);
 	        	 System.out.println("cpu " +  getCpuId() + " 在执行");
 	        	 int value=MPSA.this.findHigh(nowtime,List,this.cpuid);
 	        	 System.out.println("cpu " +  getCpuId() + " 执行进程"+value);
